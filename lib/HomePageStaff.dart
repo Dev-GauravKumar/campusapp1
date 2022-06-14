@@ -7,6 +7,7 @@ import 'package:campusapp/Scholarship/scholarship.dart';
 import 'package:campusapp/Study/studyHome.dart';
 import 'package:campusapp/menu.dart';
 import 'package:flutter/material.dart';
+import 'package:campusapp/Study/addVideos.dart';
 class HomePageStaff extends StatefulWidget {
   const HomePageStaff({Key? key}) : super(key: key);
 
@@ -37,7 +38,7 @@ class _HomePageStaffState extends State<HomePageStaff> {
         actions: [
           IconButton(onPressed: ()=>print('Notification Button Clicked!!'), icon: const Icon(Icons.notifications,size: 25,)),
           IconButton(
-              onPressed: () => print('Search Button Clicked!! '),
+              onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context)=>thumbnail('https://www.youtube.com/watch?v=GQyWIur03aw'))),
               icon: const Icon(
                 Icons.search,
                 size: 25,
@@ -78,6 +79,9 @@ class _HomePageStaffState extends State<HomePageStaff> {
                 title: const Text('Event'),
                 onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>const addEvent(),),),
               ),
+              ListTile(
+                title: Text('Add Videos'),
+                onTap:()=>Navigator.push(context, MaterialPageRoute(builder: (context)=> addVideos(),),),),
             ],
           ))
           : setState(() {
@@ -98,5 +102,26 @@ class home extends StatelessWidget {
         child: Notice(),
       ),
     ],);
+  }
+}
+class thumbnail extends StatelessWidget {
+  String url;
+  thumbnail(this.url);
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: ElevatedButton(onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>id('https://www.youtube.com/watch?v=CgpxdRlmeeE&list=PLk05cwASVVZvjId6c819zTqoV0WvZTT1f')??Container()));}, child: Text('Get Thumbnail')),
+
+    );
+  }
+  Widget? id(String url){
+    final uri = Uri.tryParse(url);
+    if (uri == null) {
+      return null;
+    }
+
+    return Container(child: Image.network('https://img.youtube.com/vi/${uri.queryParameters['v']}/0.jpg'),);
   }
 }

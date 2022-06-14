@@ -1,3 +1,4 @@
+import 'package:campusapp/Study/videoSection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
@@ -32,17 +33,21 @@ class studyHome extends StatelessWidget {
           StaggeredGridTile.count(
             crossAxisCellCount: 1,
             mainAxisCellCount: 1.5,
-            child: Card(
-              color: Colors.red,
-              child: Column(
-                children: [
-                  Icon(
-                    Icons.perm_media,
-                    color: Colors.white,
-                    size: 150,
-                  ),
-                  Text('Videos',style: TextStyle(fontSize: 30,color: Colors.white),),
-                  ]),),),
+            child: GestureDetector(
+              child: Card(
+                color: Colors.red,
+                child: Column(
+                  children: [
+                    Icon(
+                      Icons.perm_media,
+                      color: Colors.white,
+                      size: 150,
+                    ),
+                    Text('Videos',style: TextStyle(fontSize: 30,color: Colors.white),),
+                    ]),),
+          onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>videoSection(),),),
+            ),
+          ),
                   StaggeredGridTile.count(
                     crossAxisCellCount: 1,
                     mainAxisCellCount: 1.5,
