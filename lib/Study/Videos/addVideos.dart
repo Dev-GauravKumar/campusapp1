@@ -78,10 +78,11 @@ class _addVideosState extends State<addVideos> {
             ),
             ElevatedButton(
               onPressed: () async {
+                if(titleController.text==null||linkController.text==null||value==null)return;
                 FocusScopeNode currentFocus = FocusScope.of(context);
                 currentFocus.unfocus();
                 final docVideo =
-                    FirebaseFirestore.instance.collection('$value').doc();
+                    FirebaseFirestore.instance.collection('$value videos').doc();
                 final newFile = video(
                     id: docVideo.id,
                     link: linkController.text,

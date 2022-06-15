@@ -1,3 +1,4 @@
+import 'package:campusapp/Study/Books/bookSection.dart';
 import 'package:campusapp/Study/Videos/videoSection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -15,19 +16,22 @@ class studyHome extends StatelessWidget {
           StaggeredGridTile.count(
             crossAxisCellCount: 1,
             mainAxisCellCount: 1.5,
-            child: Card(
-              color: Colors.red,
-              child: Column(
-                children: [
-                  Icon(
-                    Icons.book,
-                    color: Colors.white,
-                    size: 150,
-                  ),
-                  Text('Books',style: TextStyle(fontSize: 30,color: Colors.white),),
-                ],
+            child: GestureDetector(
+              onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>bookSection(),),),
+              child: Card(
+                color: Colors.red,
+                child: Column(
+                  children: [
+                    Icon(
+                      Icons.book,
+                      color: Colors.white,
+                      size: 150,
+                    ),
+                    Text('Books',style: TextStyle(fontSize: 30,color: Colors.white),),
+                  ],
+                ),
+                elevation: 20,
               ),
-              elevation: 20,
             ),
           ),
           StaggeredGridTile.count(

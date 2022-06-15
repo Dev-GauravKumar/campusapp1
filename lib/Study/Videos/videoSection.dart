@@ -37,13 +37,4 @@ class _videoSectionState extends State<videoSection> {
       ),
     );
   }
-
-  String? id(String url) {
-    final uri = Uri.tryParse(url);
-    if (uri == null) {
-      return null;
-    }
-
-    return 'https://img.youtube.com/vi/${uri.queryParameters['v']}/0.jpg';
-  }
 }
