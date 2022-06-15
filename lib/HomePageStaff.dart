@@ -7,7 +7,7 @@ import 'package:campusapp/Scholarship/scholarship.dart';
 import 'package:campusapp/Study/studyHome.dart';
 import 'package:campusapp/menu.dart';
 import 'package:flutter/material.dart';
-import 'package:campusapp/Study/addVideos.dart';
+import 'package:campusapp/Study/Videos/addVideos.dart';
 class HomePageStaff extends StatefulWidget {
   const HomePageStaff({Key? key}) : super(key: key);
 

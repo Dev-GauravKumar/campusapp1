@@ -1,4 +1,4 @@
-import 'package:campusapp/Study/videoSection.dart';
+import 'package:campusapp/Study/Videos/videoSection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 

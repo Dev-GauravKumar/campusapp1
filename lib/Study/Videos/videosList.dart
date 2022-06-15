@@ -1,4 +1,6 @@
-import 'package:campusapp/Study/videoModel.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:campusapp/Study/Videos/playVideo.dart';
+import 'package:campusapp/Study/Videos/videoModel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 class videosList extends StatefulWidget {
@@ -34,14 +36,37 @@ class _videosListState extends State<videosList> {
     );
   }
   Widget buildList(video video){
-    return Container(
-      color: Colors.lightBlueAccent,
-      child: Text('${video.link}'),
-    );
+    String? image=thumbnail('${video.link}');
+    return GestureDetector(
+      onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>playVideo(url: '${video.link}',collection: '${widget.collection}',),),),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          child: Row(
+            children: [
+              Container(
+                height: 100,
+                width: 120,
+                child: CachedNetworkImage(imageUrl: '$image'),
+              ),
+              SizedBox(width: 40.0,),
+              Expanded(child: Text('${video.title}',style: TextStyle(fontSize: 20,color: Colors.black),)),
+            ],
+          )
+        ),
+      ),
+    );}
 
-  }
   Stream<List<video>> readData() => FirebaseFirestore.instance
-      .collection(widget.collection)
+      .collection(widget.collection).orderBy('link',descending: false)
       .snapshots()
       .map((snapshot) => snapshot.docs.map((doc) => video.fromJson(doc.data())).toList());
  }
+String? thumbnail(String url){
+  final uri = Uri.tryParse(url);
+  if (uri == null) {
+    return null;
+  }
+
+  return 'https://img.youtube.com/vi/${uri.queryParameters['v']}/0.jpg';
+}

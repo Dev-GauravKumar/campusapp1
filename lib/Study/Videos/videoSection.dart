@@ -1,4 +1,4 @@
-import 'package:campusapp/Study/videosList.dart';
+import 'package:campusapp/Study/Videos/videosList.dart';
 import 'package:flutter/material.dart';
 
 class videoSection extends StatefulWidget {
@@ -9,7 +9,7 @@ class videoSection extends StatefulWidget {
 }
 
 class _videoSectionState extends State<videoSection> {
-  final collections = ['C language', 'Data Structures', 'Web Development'];
+  final collections = ['C Language', 'Data Structures', 'Web Development'];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
