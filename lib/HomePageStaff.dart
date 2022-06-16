@@ -4,10 +4,14 @@ import 'package:campusapp/Post/AddNotice.dart';
 import 'package:campusapp/Post/Notice.dart';
 import 'package:campusapp/Scholarship/addScholarship.dart';
 import 'package:campusapp/Scholarship/scholarship.dart';
+import 'package:campusapp/Study/Notes/addNotes.dart';
+import 'package:campusapp/Study/Questions%20Papers/addQuestionsPaper.dart';
 import 'package:campusapp/Study/studyHome.dart';
 import 'package:campusapp/menu.dart';
 import 'package:flutter/material.dart';
 import 'package:campusapp/Study/Videos/addVideos.dart';
+
+import 'Study/Books/addBooks.dart';
 class HomePageStaff extends StatefulWidget {
   const HomePageStaff({Key? key}) : super(key: key);
 
@@ -82,6 +86,15 @@ class _HomePageStaffState extends State<HomePageStaff> {
               ListTile(
                 title: Text('Add Videos'),
                 onTap:()=>Navigator.push(context, MaterialPageRoute(builder: (context)=> addVideos(),),),),
+              ListTile(
+                title: Text('Add Books'),
+                onTap:()=>Navigator.push(context, MaterialPageRoute(builder: (context)=> addBooks(),),),),
+              ListTile(
+                title: Text('Add Questions Papers'),
+                onTap:()=>Navigator.push(context, MaterialPageRoute(builder: (context)=> addQuestionsPaper(),),),),
+              ListTile(
+                title: Text('Add Notes'),
+                onTap:()=>Navigator.push(context, MaterialPageRoute(builder: (context)=> addNotes(),),),),
             ],
           ))
           : setState(() {
@@ -112,7 +125,7 @@ class thumbnail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: ElevatedButton(onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>id('https://www.youtube.com/watch?v=CgpxdRlmeeE&list=PLk05cwASVVZvjId6c819zTqoV0WvZTT1f')??Container()));}, child: Text('Get Thumbnail')),
+      child: ElevatedButton(onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>id('https://www.youtube.com/watch?v=y7MW7d8fb1Y')??Container()));}, child: Text('Get Thumbnail')),
 
     );
   }

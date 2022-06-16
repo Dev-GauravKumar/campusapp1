@@ -1,3 +1,4 @@
+import 'package:campusapp/Study/Books/booksList.dart';
 import 'package:flutter/material.dart';
 
 class bookSection extends StatefulWidget {
@@ -22,7 +23,7 @@ class _bookSectionState extends State<bookSection> {
         return ListTile(
           title: Text('${collections[index]}'),
           trailing: Icon(Icons.arrow_forward_ios),
-         // onTap: Navigator.push(context, MaterialPageRoute(builder: (context)=>)),
+         onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>booksList(collection: '${collections[index]}')),),
         );
       },),
     );

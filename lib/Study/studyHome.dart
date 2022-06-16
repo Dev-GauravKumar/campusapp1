@@ -1,4 +1,6 @@
 import 'package:campusapp/Study/Books/bookSection.dart';
+import 'package:campusapp/Study/Notes/notesSection.dart';
+import 'package:campusapp/Study/Questions%20Papers/qPaperSection.dart';
 import 'package:campusapp/Study/Videos/videoSection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -23,10 +25,11 @@ class studyHome extends StatelessWidget {
                 child: Column(
                   children: [
                     Icon(
-                      Icons.book,
+                      Icons.auto_stories,
                       color: Colors.white,
                       size: 150,
                     ),
+                    SizedBox(height: 20,),
                     Text('Books',style: TextStyle(fontSize: 30,color: Colors.white),),
                   ],
                 ),
@@ -43,10 +46,11 @@ class studyHome extends StatelessWidget {
                 child: Column(
                   children: [
                     Icon(
-                      Icons.perm_media,
+                      Icons.video_library,
                       color: Colors.white,
                       size: 150,
                     ),
+                    SizedBox(height: 20,),
                     Text('Videos',style: TextStyle(fontSize: 30,color: Colors.white),),
                     ]),),
           onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>videoSection(),),),
@@ -55,33 +59,42 @@ class studyHome extends StatelessWidget {
                   StaggeredGridTile.count(
                     crossAxisCellCount: 1,
                     mainAxisCellCount: 1.5,
-                    child: Card(
-                      color: Colors.red,
-                      child: Column(
-                        children: [
-                          Icon(
-                            Icons.newspaper,
-                            color: Colors.white,
-                            size: 150,
-                          ),
-                          Text('Question Papers',style: TextStyle(fontSize: 30,color: Colors.white),),
-  ],),),),
+                    child: GestureDetector(
+                      child: Card(
+                        color: Colors.red,
+                        child: Column(
+                          children: [
+                            Icon(
+                              Icons.feed,
+                              color: Colors.white,
+                              size: 150,
+                            ),
+                            SizedBox(height: 20,),
+                            Text('Questions Papers',style: TextStyle(fontSize: 30,color: Colors.white),),
+  ],),),
+                    onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>qPaperSection(),),),
+                    ),
+                  ),
                           StaggeredGridTile.count(
                             crossAxisCellCount: 1,
                             mainAxisCellCount: 1.5,
-                            child: Card(
-                              color: Colors.red,
-                              child: Column(
-                                children: [
-                                  Icon(
-                                    Icons.request_page_rounded,
-                                    color: Colors.white,
-                                    size: 150,
-                                  ),
-                                  Text('Practice',style: TextStyle(fontSize: 30,color: Colors.white),),
-                                ],
+                            child: GestureDetector(
+                              child: Card(
+                                color: Colors.red,
+                                child: Column(
+                                  children: [
+                                    Icon(
+                                      Icons.note_alt,
+                                      color: Colors.white,
+                                      size: 150,
+                                    ),
+                                    SizedBox(height: 20,),
+                                    Text('Notes',style: TextStyle(fontSize: 30,color: Colors.white),),
+                                  ],
+                                ),
+                                elevation: 20,
                               ),
-                              elevation: 20,
+                              onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>notesSection(),),),
                             ),
                           ),
                         ],

@@ -58,7 +58,7 @@ class _videosListState extends State<videosList> {
     );}
 
   Stream<List<video>> readData() => FirebaseFirestore.instance
-      .collection('${widget.collection} videos').orderBy('link',descending: false)
+      .collection('${widget.collection} videos')
       .snapshots()
       .map((snapshot) => snapshot.docs.map((doc) => video.fromJson(doc.data())).toList());
  }
