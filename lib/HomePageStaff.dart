@@ -28,24 +28,29 @@ class _HomePageStaffState extends State<HomePageStaff> {
       appBar: AppBar(
         leading: Builder(
           builder: (context) {
-            return IconButton(onPressed:  ()=>Scaffold.of(context).openDrawer(), icon: Icon(Icons.menu,size: 25,));
+            return Container(
+                color: Colors.orange,
+                child: IconButton(onPressed:  ()=>Scaffold.of(context).openDrawer(), icon: Icon(Icons.menu,size: 25,color: Colors.black,)));
           }
         ),
-        backgroundColor: Colors.red,
-        title: const Text(
-          "My Campus",
-          style: TextStyle(
-              fontSize: 25,
-              fontFamily: "Lobster-Regular",
-              fontWeight: FontWeight.bold),
+        backgroundColor: Colors.white,
+        title: RichText(text: TextSpan(text: 'My',style:TextStyle(color: Colors.black,fontSize: 25),
+        children:[
+         TextSpan(text: ' CAM',style: TextStyle(color: Colors.black,fontSize: 25,fontWeight: FontWeight.bold),),
+          TextSpan(text: 'PU',style: TextStyle(color: Colors.orange,fontSize: 25,fontWeight: FontWeight.bold)),
+          TextSpan(text: 'S',style: TextStyle(color: Colors.black,fontSize: 25,fontWeight: FontWeight.bold),),
+        ],
+        ),
+          
         ),
         actions: [
-          IconButton(onPressed: ()=>print('Notification Button Clicked!!'), icon: const Icon(Icons.notifications,size: 25,)),
+          IconButton(onPressed: ()=>print('Notification Button Clicked!!'), icon: const Icon(Icons.notifications,size: 25,color: Colors.black,)),
           IconButton(
               onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context)=>thumbnail('https://www.youtube.com/watch?v=GQyWIur03aw'))),
               icon: const Icon(
                 Icons.search,
                 size: 25,
+                color: Colors.black,
               )),
         ],
       ),
@@ -57,14 +62,14 @@ class _HomePageStaffState extends State<HomePageStaff> {
   Widget bottomBar(context){
     return BottomNavigationBar(
       currentIndex: _selectedIndex,
-      selectedItemColor: Colors.lightBlueAccent,
+      selectedItemColor: Colors.black,
       unselectedItemColor: Colors.white,
       items: const <BottomNavigationBarItem>[
-        BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home',backgroundColor: Colors.red),
-        BottomNavigationBarItem(icon: Icon(Icons.event), label: 'Events',backgroundColor: Colors.red),
-        BottomNavigationBarItem(icon: Icon(Icons.add), label: 'Post',backgroundColor: Colors.red),
-        BottomNavigationBarItem(icon: Icon(Icons.school), label: 'Scholarship',backgroundColor: Colors.red),
-        BottomNavigationBarItem(icon: Icon(Icons.book_sharp), label: 'Study',backgroundColor: Colors.red),
+        BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home',backgroundColor: Colors.orange),
+        BottomNavigationBarItem(icon: Icon(Icons.event), label: 'Events',backgroundColor: Colors.orange),
+        BottomNavigationBarItem(icon: Icon(Icons.add), label: 'Post',backgroundColor: Colors.orange),
+        BottomNavigationBarItem(icon: Icon(Icons.school), label: 'Scholarship',backgroundColor: Colors.orange),
+        BottomNavigationBarItem(icon: Icon(Icons.book_sharp), label: 'Study',backgroundColor: Colors.orange),
       ],
       onTap: (index) => index == 2
           ? showModalBottomSheet(
