@@ -16,7 +16,7 @@ class _booksListState extends State<booksList> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.collection),
-        backgroundColor: Colors.red,
+        backgroundColor: Colors.orange,
       ),
       body: StreamBuilder<List<video>>(stream:readData(),
           builder: (context,snapshot){
@@ -41,21 +41,28 @@ class _booksListState extends State<booksList> {
         uri:Uri.parse('${book.link}'),
         builder: (context, followLink) => GestureDetector(
           onTap: followLink,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-                child: Row(
-                  children: [
-                    Container(
-                      color: Colors.red,
-                      height: 100,
-                      width: 120,
-                      child: Icon(Icons.picture_as_pdf,size: 100,color: Colors.white,),
-                    ),
-                    SizedBox(width: 40.0,),
-                    Expanded(child: Text('${book.title}',style: TextStyle(fontSize: 20,color: Colors.black),)),
-                  ],
-                )
+          child: Card(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                  child: Row(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.red
+                        ),
+                        height: 100,
+                        width: 120,
+                        child: Icon(Icons.picture_as_pdf,size: 100,color: Colors.white,),
+                      ),
+                      SizedBox(width: 30.0,),
+                      Container(width: 1,color: Colors.black26,height: 100,),
+                      SizedBox(width: 10,),
+                      Expanded(child: Text('${book.title}',style: TextStyle(fontSize: 20,color: Colors.black),)),
+                    ],
+                  )
+              ),
             ),
           ),
         ),

@@ -16,7 +16,7 @@ class _notesListState extends State<notesList> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.collection),
-        backgroundColor: Colors.red,
+        backgroundColor: Colors.orange,
       ),
       body: StreamBuilder<List<video>>(stream:readData(),
           builder: (context,snapshot){
@@ -35,7 +35,7 @@ class _notesListState extends State<notesList> {
     );
   }
   Widget buildList(video Notes){
-    return Container(
+    return Card(
       child: Link(
         target: LinkTarget.defaultTarget,
         uri:Uri.parse('${Notes.link}'),
@@ -47,12 +47,17 @@ class _notesListState extends State<notesList> {
                 child: Row(
                   children: [
                     Container(
-                      color: Colors.red,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.red
+                      ),
                       height: 100,
                       width: 120,
                       child: Icon(Icons.picture_as_pdf,size: 100,color: Colors.white,),
                     ),
-                    SizedBox(width: 40.0,),
+                    SizedBox(width: 30.0,),
+                    Container(width: 1,height: 100,color: Colors.black26,),
+                    SizedBox(width: 10,),
                     Expanded(child: Text('${Notes.title}',style: TextStyle(fontSize: 20,color: Colors.black),)),
                   ],
                 )

@@ -45,17 +45,29 @@ class _playVideoState extends State<playVideo> {
         ),
       body: ListView(
         children: [
-          player,
+
           Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Text(_controller.value.metaData.title,style: TextStyle(fontSize: 25,color: Colors.black),),
-          ),Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Text('Channel : ${_controller.value.metaData.author}',style: TextStyle(fontSize: 25,color: Colors.black),),
+            padding: const EdgeInsets.only(top: 10.0),
+            child: player,
           ),
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Text('Duration : ${_controller.value.metaData.duration.inHours} Hours',style: TextStyle(fontSize: 25,color: Colors.black),),
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Text(_controller.value.metaData.title,style: TextStyle(fontSize: 25,color: Colors.black),),
+            ),
+          ),
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Text('Channel : ${_controller.value.metaData.author}',style: TextStyle(fontSize: 25,color: Colors.black),),
+            ),
+          ),
+          
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Text('Duration : ${_controller.value.metaData.duration.inHours} Hours',style: TextStyle(fontSize: 25,color: Colors.black),),
+            ),
           ),
 
         ],

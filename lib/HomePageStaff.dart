@@ -10,7 +10,6 @@ import 'package:campusapp/Study/studyHome.dart';
 import 'package:campusapp/menu.dart';
 import 'package:flutter/material.dart';
 import 'package:campusapp/Study/Videos/addVideos.dart';
-
 import 'Study/Books/addBooks.dart';
 class HomePageStaff extends StatefulWidget {
   const HomePageStaff({Key? key}) : super(key: key);
@@ -24,7 +23,9 @@ class _HomePageStaffState extends State<HomePageStaff> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: menu(),
+      drawer: Container(
+          width: 250,
+          child: menu()),
       appBar: AppBar(
         leading: Builder(
           builder: (context) {
@@ -41,12 +42,11 @@ class _HomePageStaffState extends State<HomePageStaff> {
           TextSpan(text: 'S',style: TextStyle(color: Colors.black,fontSize: 25,fontWeight: FontWeight.bold),),
         ],
         ),
-          
+
         ),
         actions: [
-          IconButton(onPressed: ()=>print('Notification Button Clicked!!'), icon: const Icon(Icons.notifications,size: 25,color: Colors.black,)),
           IconButton(
-              onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context)=>thumbnail('https://www.youtube.com/watch?v=GQyWIur03aw'))),
+              onPressed: () {},
               icon: const Icon(
                 Icons.search,
                 size: 25,
@@ -77,28 +77,42 @@ class _HomePageStaffState extends State<HomePageStaff> {
           builder: (context) => ListView(
             children: [
               ListTile(
+                tileColor: Colors.orange,
+                leading: Icon(Icons.post_add),
                 title: const Text('Notice'),
                 onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context)=>const AddNotice(),)),
               ),
               ListTile(
+                tileColor: Colors.orange,
+                leading: Icon(Icons.school),
                 title: const Text('Scholarship'),
                 onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>const addScholarship(),)),
               ),
               ListTile(
+                tileColor: Colors.orange,
+                leading: Icon(Icons.event),
                 title: const Text('Event'),
                 onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>const addEvent(),),),
               ),
               ListTile(
-                title: Text('Add Videos'),
+                leading: Icon(Icons.video_library,color: Colors.white,),
+                tileColor: Colors.black,
+                title: Text('Add Videos',style: TextStyle(color: Colors.white),),
                 onTap:()=>Navigator.push(context, MaterialPageRoute(builder: (context)=> addVideos(),),),),
               ListTile(
-                title: Text('Add Books'),
+                leading: Icon(Icons.book,color: Colors.white,),
+                tileColor: Colors.black,
+                title: Text('Add Books',style: TextStyle(color: Colors.white),),
                 onTap:()=>Navigator.push(context, MaterialPageRoute(builder: (context)=> addBooks(),),),),
               ListTile(
-                title: Text('Add Questions Papers'),
+                leading: Icon(Icons.note_add,color: Colors.white,),
+                tileColor: Colors.black,
+                title: Text('Add Questions Papers',style: TextStyle(color: Colors.white),),
                 onTap:()=>Navigator.push(context, MaterialPageRoute(builder: (context)=> addQuestionsPaper(),),),),
               ListTile(
-                title: Text('Add Notes'),
+                leading: Icon(Icons.note_alt,color: Colors.white,),
+                tileColor: Colors.black,
+                title: Text('Add Notes',style: TextStyle(color: Colors.white),),
                 onTap:()=>Navigator.push(context, MaterialPageRoute(builder: (context)=> addNotes(),),),),
             ],
           ))
@@ -120,26 +134,5 @@ class home extends StatelessWidget {
         child: Notice(),
       ),
     ],);
-  }
-}
-class thumbnail extends StatelessWidget {
-  String url;
-  thumbnail(this.url);
-
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: ElevatedButton(onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>id('https://www.youtube.com/watch?v=y7MW7d8fb1Y')??Container()));}, child: Text('Get Thumbnail')),
-
-    );
-  }
-  Widget? id(String url){
-    final uri = Uri.tryParse(url);
-    if (uri == null) {
-      return null;
-    }
-
-    return Container(child: Image.network('https://img.youtube.com/vi/${uri.queryParameters['v']}/0.jpg'),);
   }
 }

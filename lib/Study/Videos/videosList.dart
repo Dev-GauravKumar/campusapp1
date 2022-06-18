@@ -17,7 +17,7 @@ class _videosListState extends State<videosList> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.collection),
-        backgroundColor: Colors.red,
+        backgroundColor: Colors.orange,
       ),
       body: StreamBuilder<List<video>>(stream:readData(),
           builder: (context,snapshot){
@@ -39,20 +39,24 @@ class _videosListState extends State<videosList> {
     String? image=thumbnail('${video.link}');
     return GestureDetector(
       onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>playVideo(url: '${video.link}',collection: '${widget.collection}',),),),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Container(
-          child: Row(
-            children: [
-              Container(
-                height: 100,
-                width: 120,
-                child: CachedNetworkImage(imageUrl: '$image'),
-              ),
-              SizedBox(width: 40.0,),
-              Expanded(child: Text('${video.title}',style: TextStyle(fontSize: 20,color: Colors.black),)),
-            ],
-          )
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            child: Row(
+              children: [
+                Container(
+                  height: 100,
+                  width: 120,
+                  child: CachedNetworkImage(imageUrl: '$image'),
+                ),
+                SizedBox(width: 30.0,),
+                Container(width: 1,height: 100,color: Colors.black26,),
+                SizedBox(width: 10,),
+                Expanded(child: Text('${video.title}',style: TextStyle(fontSize: 20,color: Colors.black),)),
+              ],
+            )
+          ),
         ),
       ),
     );}

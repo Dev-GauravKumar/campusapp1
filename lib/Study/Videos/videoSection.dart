@@ -14,21 +14,22 @@ class _videoSectionState extends State<videoSection> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.red,
+        backgroundColor: Colors.orange,
         title: Text('Videos'),
       ),
       body: ListView.builder(
         itemCount: collections.length,
         itemBuilder: (BuildContext context, int index) {
-          return ListTile(
-            title: Text(collections[index]),
-            trailing: Icon(Icons.arrow_forward_ios),
-            //leading: Container(child: Image.network(id("https://www.youtube.com/watch?v=CgpxdRlmeeE&list=PLk05cwASVVZvjId6c819zTqoV0WvZTT1f")??""),
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => videosList(
-                  collection: collections[index],
+          return Card(
+            child: ListTile(
+              title: Text(collections[index]),
+              trailing: Icon(Icons.arrow_forward_ios),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => videosList(
+                    collection: collections[index],
+                  ),
                 ),
               ),
             ),

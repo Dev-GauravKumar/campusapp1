@@ -17,6 +17,7 @@ class AddNotice extends StatefulWidget {
 class _AddNoticeState extends State<AddNotice> {
   final nameController = TextEditingController();
   final captionController = TextEditingController();
+  final titleController = TextEditingController();
   String? filePath;
   String? imageUrl;
   String? imageName;
@@ -54,6 +55,16 @@ class _AddNoticeState extends State<AddNotice> {
         ),
         body: ListView(
           children: [
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: TextField(
+                controller: titleController,
+                decoration: const InputDecoration(
+                  label: Text('Title'),
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            ),
              Padding(
               padding: const EdgeInsets.all(10.0),
               child: TextField(
@@ -67,9 +78,12 @@ class _AddNoticeState extends State<AddNotice> {
              Padding(
               padding: const EdgeInsets.all(10.0),
               child: TextField(
+                minLines: 1,
+                maxLines: 100,
+                textInputAction: TextInputAction.newline,
                 controller: captionController,
                 decoration: const InputDecoration(
-                  label: Text('Caption'),
+                  label: Text('Discription'),
                   border: OutlineInputBorder(),
                 ),
               ),
@@ -100,8 +114,9 @@ class _AddNoticeState extends State<AddNotice> {
                 currentFocus.unfocus();
                 var name=nameController.text;
                 var caption=captionController.text;
+                var title=titleController.text;
                 await Post();
-                createPost(name: name, caption: caption,imageUrl: imageUrl,filePath: filePath);
+                createPost(name: name, caption: caption,imageUrl: imageUrl,filePath: filePath,title: title);
               },
               child: const Text('Post'),
             ),
@@ -135,9 +150,9 @@ class _AddNoticeState extends State<AddNotice> {
           }
         },
       );
-  Future createPost({required String name,required String? caption,required String? imageUrl,String? filePath})async{
+  Future createPost({required String name,required String? caption,required String? imageUrl,String? filePath,required String title})async{
     final docPost=FirebaseFirestore.instance.collection('Posts').doc();
-    final newPost= post(name: name, caption: caption, id: docPost.id,imageUrl: imageUrl,filePath: filePath);
+    final newPost= post(name: name, caption: caption, id: docPost.id,imageUrl: imageUrl,filePath: filePath,title: title);
     final json=newPost.toJson();
     await docPost.set(json);
     setState(() {

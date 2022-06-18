@@ -3,7 +3,6 @@ import 'package:campusapp/Study/Notes/notesSection.dart';
 import 'package:campusapp/Study/Questions%20Papers/qPaperSection.dart';
 import 'package:campusapp/Study/Videos/videoSection.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class studyHome extends StatelessWidget {
   const studyHome({Key? key}) : super(key: key);
@@ -12,95 +11,89 @@ class studyHome extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 30, left: 5, right: 5),
-      child: StaggeredGrid.count(
+      child: GridView.count(
+        mainAxisSpacing: 5,
+        crossAxisSpacing: 5,
         crossAxisCount: 2,
         children: [
-          StaggeredGridTile.count(
-            crossAxisCellCount: 1,
-            mainAxisCellCount: 1.5,
-            child: GestureDetector(
-              onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>bookSection(),),),
-              child: Card(
-                color: Colors.red,
-                child: Column(
-                  children: [
-                    Icon(
-                      Icons.auto_stories,
-                      color: Colors.white,
-                      size: 150,
+          GestureDetector(
+            onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>bookSection(),),),
+            child: Card(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20),
+                    child: Container(
+                      child: Image.asset('assets/book.png',fit: BoxFit.contain,),
+                      height: 100,
+                      width: 100,
                     ),
-                    SizedBox(height: 20,),
-                    Text('Books',style: TextStyle(fontSize: 30,color: Colors.white),),
-                  ],
-                ),
-                elevation: 20,
+                  ),
+                  SizedBox(height: 10,),
+                  Text('Books',style: TextStyle(fontSize: 20),)
+                ],
               ),
             ),
           ),
-          StaggeredGridTile.count(
-            crossAxisCellCount: 1,
-            mainAxisCellCount: 1.5,
-            child: GestureDetector(
-              child: Card(
-                color: Colors.red,
-                child: Column(
-                  children: [
-                    Icon(
-                      Icons.video_library,
-                      color: Colors.white,
-                      size: 150,
-                    ),
-                    SizedBox(height: 20,),
-                    Text('Videos',style: TextStyle(fontSize: 30,color: Colors.white),),
-                    ]),),
-          onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>videoSection(),),),
-            ),
-          ),
-                  StaggeredGridTile.count(
-                    crossAxisCellCount: 1,
-                    mainAxisCellCount: 1.5,
-                    child: GestureDetector(
-                      child: Card(
-                        color: Colors.red,
-                        child: Column(
-                          children: [
-                            Icon(
-                              Icons.feed,
-                              color: Colors.white,
-                              size: 150,
-                            ),
-                            SizedBox(height: 20,),
-                            Text('Questions Papers',style: TextStyle(fontSize: 30,color: Colors.white),),
-  ],),),
-                    onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>qPaperSection(),),),
+          GestureDetector(
+            onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>videoSection(),),),
+            child: Card(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20),
+                    child: Container(
+                      child: Icon(Icons.video_library,size: 100,),
+                      height: 100,
+                      width: 100,
                     ),
                   ),
-                          StaggeredGridTile.count(
-                            crossAxisCellCount: 1,
-                            mainAxisCellCount: 1.5,
-                            child: GestureDetector(
-                              child: Card(
-                                color: Colors.red,
-                                child: Column(
-                                  children: [
-                                    Icon(
-                                      Icons.note_alt,
-                                      color: Colors.white,
-                                      size: 150,
-                                    ),
-                                    SizedBox(height: 20,),
-                                    Text('Notes',style: TextStyle(fontSize: 30,color: Colors.white),),
-                                  ],
-                                ),
-                                elevation: 20,
-                              ),
-                              onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>notesSection(),),),
-                            ),
-                          ),
-                        ],
-        mainAxisSpacing: 50,
-        crossAxisSpacing: 50,
-                      ),
+                  SizedBox(height: 10,),
+                  Text('Videos',style: TextStyle(fontSize: 22),)
+                ],
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>qPaperSection(),),),
+            child: Card(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20),
+                    child: Container(
+                      child: Icon(Icons.sticky_note_2_sharp,size: 100,),
+                      height: 100,
+                      width: 100,
+                    ),
+                  ),
+                  SizedBox(height: 10,),
+                  Text('Questions Papers',style: TextStyle(fontSize: 20),)
+                ],
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>notesSection(),),),
+            child: Card(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20),
+                    child: Container(
+                      child: Icon(Icons.note_alt,size: 100,),
+                      height: 100,
+                      width: 100,
+                    ),
+                  ),
+                  SizedBox(height: 10,),
+                  Text('Notes',style: TextStyle(fontSize: 20),)
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

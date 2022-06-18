@@ -16,7 +16,7 @@ class _qPaperListState extends State<qPaperList> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.collection),
-        backgroundColor: Colors.red,
+        backgroundColor: Colors.orange,
       ),
       body: StreamBuilder<List<video>>(stream:readData(),
           builder: (context,snapshot){
@@ -35,7 +35,7 @@ class _qPaperListState extends State<qPaperList> {
     );
   }
   Widget buildList(video QP){
-    return Container(
+    return Card(
       child: Link(
         target: LinkTarget.defaultTarget,
         uri:Uri.parse('${QP.link}'),
@@ -47,12 +47,17 @@ class _qPaperListState extends State<qPaperList> {
                 child: Row(
                   children: [
                     Container(
-                      color: Colors.red,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.red,
+                      ),
                       height: 100,
                       width: 120,
                       child: Icon(Icons.picture_as_pdf,size: 100,color: Colors.white,),
                     ),
-                    SizedBox(width: 40.0,),
+                    SizedBox(width: 30.0,),
+                    Container(height: 100,width: 1,color: Colors.black26,),
+                    SizedBox(width: 10,),
                     Expanded(child: Text('${QP.title}',style: TextStyle(fontSize: 20,color: Colors.black),)),
                   ],
                 )

@@ -14,6 +14,7 @@ class scholarship extends StatefulWidget {
 }
 
 class _scholarshipState extends State<scholarship> {
+  bool _customTileExpanded=false;
   @override
   DateTime? selectedDate = DateTime.now();
   Widget build(BuildContext context) {
@@ -32,28 +33,83 @@ class _scholarshipState extends State<scholarship> {
           }
         });
   }
-  Widget buildEvent(scholar scholar)=>ExpansionTile(
-    tilePadding: const EdgeInsets.all(10.0),
-    childrenPadding: const EdgeInsets.all(5.0),
-    title: Text('${scholar.title}',style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
-    subtitle: Text('Last Date: ${scholar.selectedDate}'),
-    children: [
-      Align(
-          alignment: Alignment.topLeft,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              scholar.fileUrl!=null?ElevatedButton(onPressed: ()=>openFile(url: '${scholar.fileUrl}',name: '${scholar.fileName}'), child: const Text('Attached File'),):Container(),
-              Row(
-                children: [
-                  IconButton(onPressed: ()=>editEvent(scholar), icon: const Icon(Icons.edit),),
-                  IconButton(onPressed: ()=>deleteScholar(scholar), icon: const Icon(Icons.delete),),
-                ],
-              )
-            ],
-          )),
-      Text('${scholar.discription}'),
-    ],
+  Widget buildEvent(scholar scholar)=>Card(
+    child: ExpansionTile(
+      onExpansionChanged:(bool expanded) {
+        setState(() {
+          _customTileExpanded = expanded;
+        });
+      },
+      textColor: Colors.black,
+      iconColor: Colors.orange,
+      trailing: _customTileExpanded?Icon(Icons.keyboard_arrow_down_outlined,size: 40,):Icon(Icons.keyboard_arrow_up_outlined,size: 40,),
+      tilePadding: const EdgeInsets.all(10.0),
+      childrenPadding: const EdgeInsets.all(5.0),
+      title: Text('${scholar.title}',style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
+      subtitle: Text('Last Date: ${scholar.selectedDate}'),
+      children: [
+        Container(
+          height: 150,
+          width: 350,
+          decoration: BoxDecoration(
+            color: Color.fromRGBO(243, 246, 251,1),
+            border: Border.all(color: Colors.black26,width: 1),
+            borderRadius: BorderRadius.circular(5),
+          ),
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text('${scholar.discription}'),
+            ),
+          ),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            scholar.fileUrl==null?Container():Padding(
+                padding: EdgeInsets.all(8.0),
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(primary: Colors.orange,fixedSize: Size(150,50)),
+                    onPressed: ()=>openFile(url: '${scholar.fileUrl}', name: '${scholar.fileName}'), child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Icon(Icons.download),
+                    Text('Attached File')
+                  ],))),
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    child: IconButton(
+                      onPressed: ()=>editEvent(scholar),
+                      icon: Icon(Icons.edit,color: Colors.white,),
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: Colors.orange,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    child: IconButton(
+                      onPressed: () =>deleteScholar(scholar),
+                      icon: Icon(Icons.delete,color: Colors.white,),
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ],
+    ),
   );
   Future openFile({required String url,required String? name})async{
     final file = await downloadFile(url,name!);
@@ -83,13 +139,13 @@ class _scholarshipState extends State<scholarship> {
       title: const Text('Are You Sure?'),
       content: const Text('You Want To Delete This Scholarship'),
       actions: [
-        TextButton(onPressed: ()=>Navigator.pop(context), child: const Text('No'),),
+        TextButton(onPressed: ()=>Navigator.pop(context), child: const Text('No',style: TextStyle(color: Colors.black),),),
         TextButton(onPressed: ()async{
           final docEvent=FirebaseFirestore.instance.collection('Scholarships').doc(scholar.id);
           docEvent.delete();
           Navigator.pop(context);
           await delete(scholar.filePath);
-        }, child: const Text('Yes'),),
+        }, child: const Text('Yes',style: TextStyle(color: Colors.orange),),),
       ],
 
     ));
@@ -129,6 +185,8 @@ class _scholarshipState extends State<scholarship> {
     ),
         const SizedBox(height: 10,),
         TextField(
+          minLines: 1,
+          maxLines: 100,
           controller: discriptionController,
           decoration: const InputDecoration(
             labelText: 'Discription',
@@ -138,7 +196,9 @@ class _scholarshipState extends State<scholarship> {
         const SizedBox(height: 10,),
         Align(
           alignment: Alignment.centerLeft,
-          child: ElevatedButton(onPressed: ()async{
+          child: ElevatedButton(
+              style: ElevatedButton.styleFrom(primary: Colors.orange),
+              onPressed: ()async{
             await datePicker(context);
             final date= '${selectedDate!.day}-${selectedDate!.month}-${selectedDate!.year}';
             final docEvent=FirebaseFirestore.instance.collection('Scholarships').doc(scholar.id);
@@ -171,7 +231,7 @@ class _scholarshipState extends State<scholarship> {
           } else {
             Navigator.pop(context);
           }
-        }, child: const Text('Done')),
+        }, child: const Text('Done',style: TextStyle(color: Colors.orange),)),
       ],
     ));
   }

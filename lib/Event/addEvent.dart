@@ -53,6 +53,8 @@ class _addEventState extends State<addEvent> {
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: TextField(
+                minLines: 1,
+                maxLines: 100,
                 controller: discriptionController,
                 decoration: const InputDecoration(
                   label: Text('Discription'),
