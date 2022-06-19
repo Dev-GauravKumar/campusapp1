@@ -53,8 +53,8 @@ class _NoticeState extends State<Notice> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.all(10.0),
+                    child:  Padding(
+                      padding: const EdgeInsets.all(10.0),
                       child: Text(
                         '${post.title}',
                         style: const TextStyle(
@@ -66,7 +66,7 @@ class _NoticeState extends State<Notice> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(10.0),
-                    child: Text('${post.name}',style: TextStyle(color: Colors.black54,fontWeight: FontWeight.w500),),
+                    child: Text('${post.name}',style: const TextStyle(color: Colors.black54,fontWeight: FontWeight.w500),),
                   ),
                 ],
               ),
@@ -83,7 +83,7 @@ class _NoticeState extends State<Notice> {
                     child: Container(
                       child: IconButton(
                         onPressed: () =>editPost(post),
-                        icon: Icon(Icons.edit,color: Colors.white,),
+                        icon: const Icon(Icons.edit,color: Colors.white,),
                       ),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
@@ -96,7 +96,7 @@ class _NoticeState extends State<Notice> {
                     child: Container(
                       child: IconButton(
                         onPressed: () =>deletePost(post),
-                        icon: Icon(Icons.delete,color: Colors.white,),
+                        icon: const Icon(Icons.delete,color: Colors.white,),
                       ),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
@@ -322,8 +322,8 @@ class Caption extends StatelessWidget {
                   trimExpandedText: 'Read Less',
                   trimMode: TrimMode.Line,
                   trimLines: imageUrl == null ? 10 : 4,
-          moreStyle: TextStyle(color: Colors.orange),
-                lessStyle: TextStyle(color: Colors.orange),
+          moreStyle: const TextStyle(color: Colors.orange),
+                lessStyle: const TextStyle(color: Colors.orange),
                 ),
             ),
       ),

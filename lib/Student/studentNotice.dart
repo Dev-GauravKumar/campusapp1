@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:readmore/readmore.dart';
 import 'package:campusapp/Post/post_Model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+
 class studentNotice extends StatefulWidget {
   const studentNotice({Key? key}) : super(key: key);
 
@@ -18,7 +19,7 @@ class studentNotice extends StatefulWidget {
 
 class _studentNoticeState extends State<studentNotice> {
   var imageName;
-  File? imageTemp=null;
+  File? imageTemp = null;
   UploadTask? task;
   @override
   Widget build(BuildContext context) {
@@ -42,7 +43,7 @@ class _studentNoticeState extends State<studentNotice> {
   }
 
   Widget buildPost(post post) => Container(
-    height: 300,
+    height: 315,
     width: 150,
     child: Card(
       elevation: 10,
@@ -52,22 +53,28 @@ class _studentNoticeState extends State<studentNotice> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
-                child: Text(
-                  '${post.name}',
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                      fontSize: 15),
+                child: Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: Text(
+                    '${post.title}',
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                        fontSize: 15),
+                  ),
                 ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Text('${post.name}',style: const TextStyle(color: Colors.black54,fontWeight: FontWeight.w500),),
               ),
             ],
           ),
-          SizedBox(height: 20,),
+          Photo(post),
           Caption(
             caption: post.caption,
             imageUrl: post.imageUrl,
           ),
-          Photo(post),
         ],
       ),
     ),
@@ -86,21 +93,23 @@ class _studentNoticeState extends State<studentNotice> {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text('No'),
+              child: const Text('No',style: TextStyle(color: Colors.black),),
             ),
             TextButton(
-              onPressed: () async{
-                final docPost =
-                FirebaseFirestore.instance.collection('Posts').doc(post.id);
+              onPressed: () async {
+                final docPost = FirebaseFirestore.instance
+                    .collection('Posts')
+                    .doc(post.id);
                 docPost.delete();
                 Navigator.pop(context);
                 await delete(post.filePath);
               },
-              child: const Text('Yes'),
+              child: const Text('Yes',style: TextStyle(color: Colors.orange),),
             ),
           ],
         ));
   }
+
   editPost(post post) {
     final nameController = TextEditingController();
     final captionController = TextEditingController();
@@ -121,34 +130,42 @@ class _studentNoticeState extends State<studentNotice> {
           ),
           TextField(
             controller: captionController,
+            minLines: 1,
+            maxLines: 100,
             decoration: const InputDecoration(
-              labelText: 'Caption',
+              labelText: 'Discription',
               border: OutlineInputBorder(),
             ),
           ),
           const SizedBox(height: 10),
           Align(
             alignment: Alignment.centerLeft,
-            child: Container(
+            child: SizedBox(
               height: 50,
               width: 50,
-              child: post.imageUrl==null?Container():CachedNetworkImage(imageUrl: '${post.imageUrl}'),
+              child: post.imageUrl == null
+                  ? Container()
+                  : CachedNetworkImage(imageUrl: '${post.imageUrl}'),
             ),
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: post.imageUrl==null?MainAxisAlignment.start:MainAxisAlignment.spaceAround,
             children: [
               ElevatedButton(
-                onPressed: ()async{
+                style: ElevatedButton.styleFrom(primary: Colors.orange),
+                onPressed: () async {
                   await addImage(post);
                 },
                 child: const Text('Add Image'),
               ),
-              ElevatedButton(
+              post.imageUrl==null?Container():ElevatedButton(
+                style: ElevatedButton.styleFrom(primary: Colors.black),
                 onPressed: () async {
                   delete(post.filePath);
-                  final docPost=FirebaseFirestore.instance.collection('Posts').doc(post.id);
-                  await docPost.update({'imageUrl':null,'filePath':null});
+                  final docPost = FirebaseFirestore.instance
+                      .collection('Posts')
+                      .doc(post.id);
+                  await docPost.update({'imageUrl': null, 'filePath': null});
                   setState(() {});
                 },
                 child: const Text('Delete Image'),
@@ -159,8 +176,7 @@ class _studentNoticeState extends State<studentNotice> {
             onPressed: () {
               final docPost =
               FirebaseFirestore.instance.collection('Posts').doc(post.id);
-              if (nameController.text != '' &&
-                  captionController.text != '') {
+              if (nameController.text != '' && captionController.text != '') {
                 docPost.update({
                   'name': nameController.text,
                   'caption': captionController.text,
@@ -182,62 +198,74 @@ class _studentNoticeState extends State<studentNotice> {
                 Navigator.pop(context);
               }
             },
-            child: const Text('Done'),
+            child: const Text('Done',style: TextStyle(color: Colors.orange),),
           ),
         ],
-      ),);
+      ),
+    );
   }
-  Future addImage(post post) async{
+
+  Future addImage(post post) async {
     try {
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
       if (image == null) return;
-      imageName=image.path.split('/').last;
+      imageName = image.path.split('/').last;
       setState(() {
         imageTemp = File(image.path);
       });
     } on PlatformException catch (e) {
       Text('Something Went Wrong $e');
     }
-    if(post.filePath!=null){
+    if (post.filePath != null) {
       await delete(post.filePath);
     }
-    final destination='Images/$imageName';
-    task= FirebaseApi.uploadFile(destination, imageTemp!);
-    if(task==null)return;
+    final destination = 'Images/$imageName';
+    task = FirebaseApi.uploadFile(destination, imageTemp!);
+    if (task == null) return;
     setState(() {});
-    final snapshot= await task!.whenComplete(() => (){});
-    final url=await snapshot.ref.getDownloadURL();
-    final filePath= snapshot.ref.fullPath;
-    final docPost=FirebaseFirestore.instance.collection('Posts').doc(post.id);
-    await docPost.update({'imageUrl':url,'filePath':filePath});
+    final snapshot = await task!.whenComplete(() => () {});
+    final url = await snapshot.ref.getDownloadURL();
+    final filePath = snapshot.ref.fullPath;
+    final docPost = FirebaseFirestore.instance.collection('Posts').doc(post.id);
+    await docPost.update({'imageUrl': url, 'filePath': filePath});
     setState(() {});
   }
+
   delete(String? ref) async {
     final storage = FirebaseStorage.instance;
     await storage.ref(ref).delete();
     // Rebuild the UI
     setState(() {});
   }
+
   Widget Photo(post post) {
     return post.imageUrl != null
         ? Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
-        height: 150,
+        height: 130,
         width: 400,
         child: InkWell(
-          child: CachedNetworkImage(imageUrl: '${post.imageUrl}',fit: BoxFit.cover,progressIndicatorBuilder: (context,url,download)=>CircularProgressIndicator(
-            value: download.progress,
+          child: CachedNetworkImage(
+            imageUrl: '${post.imageUrl}',
+            fit: BoxFit.cover,
+            progressIndicatorBuilder: (context, url, download) =>
+                CircularProgressIndicator(
+                  value: download.progress,
+                ),
           ),
-          ),
-          onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>openPic(imageUrl: post.imageUrl,))),
+          onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => openPic(
+                    imageUrl: post.imageUrl,
+                  ))),
         ),
       ),
     )
         : Container();
   }
 }
-
 
 class Caption extends StatelessWidget {
   final String? caption;
@@ -252,15 +280,20 @@ class Caption extends StatelessWidget {
         scrollDirection: Axis.vertical,
         child: caption == null
             ? Container()
-            : ReadMoreText(
-          '$caption',
-          style: const TextStyle(
-            color: Colors.black,
+            : Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ReadMoreText(
+            '$caption',
+            style: const TextStyle(
+              color: Colors.black,
+            ),
+            trimCollapsedText: 'Read More',
+            trimExpandedText: 'Read Less',
+            trimMode: TrimMode.Line,
+            trimLines: imageUrl == null ? 13 : 6,
+            moreStyle: const TextStyle(color: Colors.cyan),
+            lessStyle: const TextStyle(color: Colors.cyan),
           ),
-          trimCollapsedText: 'Read More',
-          trimExpandedText: 'Read Less',
-          trimMode: TrimMode.Line,
-          trimLines: imageUrl == null ? 15 : 4,
         ),
       ),
     );

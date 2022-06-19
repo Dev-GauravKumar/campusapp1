@@ -27,7 +27,7 @@ class _addBooksState extends State<addBooks> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Add Books'),
+          title: const Text('Add Books'),
         ),
         body: ListView(
           children: [
@@ -56,14 +56,14 @@ class _addBooksState extends State<addBooks> {
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Container(
-                padding: EdgeInsets.all(10.0),
+                padding: const EdgeInsets.all(10.0),
                 height: 60,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(color: Colors.grey, width: 1),
                 ),
                 child: DropdownButton<String>(
-                  hint: Text('Collection'),
+                  hint: const Text('Collection'),
                   underline: DropdownButtonHideUnderline(
                     child: Container(),
                   ),
@@ -78,7 +78,7 @@ class _addBooksState extends State<addBooks> {
             ),
             ElevatedButton(
               onPressed: () async {
-                if(titleController.text==null||linkController.text==null||value==null)return;
+                if(titleController.text==''||linkController.text==''||value==null)return;
                 FocusScopeNode currentFocus = FocusScope.of(context);
                 currentFocus.unfocus();
                 final docVideo =
@@ -93,12 +93,12 @@ class _addBooksState extends State<addBooks> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => HomePageStaff(),
+                      builder: (context) => const HomePageStaff(),
                     ),
                   );
                 });
               },
-              child: Text('Done'),
+              child: const Text('Done'),
             ),
           ],
         ),

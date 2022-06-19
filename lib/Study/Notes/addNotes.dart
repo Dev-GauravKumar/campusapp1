@@ -27,7 +27,7 @@ class _addNotesState extends State<addNotes> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Add Notes'),
+          title: const Text('Add Notes'),
         ),
         body: ListView(
           children: [
@@ -56,14 +56,14 @@ class _addNotesState extends State<addNotes> {
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Container(
-                padding: EdgeInsets.all(10.0),
+                padding: const EdgeInsets.all(10.0),
                 height: 60,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(color: Colors.grey, width: 1),
                 ),
                 child: DropdownButton<String>(
-                  hint: Text('Collection'),
+                  hint: const Text('Collection'),
                   underline: DropdownButtonHideUnderline(
                     child: Container(),
                   ),
@@ -78,7 +78,7 @@ class _addNotesState extends State<addNotes> {
             ),
             ElevatedButton(
               onPressed: () async {
-                if(titleController.text==null||linkController.text==null||value==null)return;
+                if(titleController.text==null||linkController.text==''||value=='')return;
                 FocusScopeNode currentFocus = FocusScope.of(context);
                 currentFocus.unfocus();
                 final docVideo =
@@ -93,12 +93,12 @@ class _addNotesState extends State<addNotes> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => HomePageStaff(),
+                      builder: (context) => const HomePageStaff(),
                     ),
                   );
                 });
               },
-              child: Text('Done'),
+              child: const Text('Done'),
             ),
           ],
         ),

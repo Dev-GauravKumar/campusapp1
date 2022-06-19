@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/link.dart';
 import '../Videos/videoModel.dart';
+import 'package:campusapp/userPreferences.dart';
 class booksList extends StatefulWidget {
   final String collection;
   booksList({required this.collection});
@@ -11,12 +12,13 @@ class booksList extends StatefulWidget {
 }
 
 class _booksListState extends State<booksList> {
+  String? user = userPreferences.getUser();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.collection),
-        backgroundColor: Colors.orange,
+        backgroundColor: '$user'.toUpperCase()=='STAFF'?Colors.orange:Colors.cyan,
       ),
       body: StreamBuilder<List<video>>(stream:readData(),
           builder: (context,snapshot){
@@ -35,34 +37,30 @@ class _booksListState extends State<booksList> {
     );
   }
   Widget buildList(video book){
-    return Container(
-      child: Link(
-        target: LinkTarget.defaultTarget,
-        uri:Uri.parse('${book.link}'),
-        builder: (context, followLink) => GestureDetector(
-          onTap: followLink,
-          child: Card(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                  child: Row(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.red
-                        ),
-                        height: 100,
-                        width: 120,
-                        child: Icon(Icons.picture_as_pdf,size: 100,color: Colors.white,),
-                      ),
-                      SizedBox(width: 30.0,),
-                      Container(width: 1,color: Colors.black26,height: 100,),
-                      SizedBox(width: 10,),
-                      Expanded(child: Text('${book.title}',style: TextStyle(fontSize: 20,color: Colors.black),)),
-                    ],
-                  )
-              ),
+    return Link(
+      target: LinkTarget.defaultTarget,
+      uri:Uri.parse('${book.link}'),
+      builder: (context, followLink) => GestureDetector(
+        onTap: followLink,
+        child: Card(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.red
+                  ),
+                  height: 100,
+                  width: 120,
+                  child: const Icon(Icons.picture_as_pdf,size: 100,color: Colors.white,),
+                ),
+                const SizedBox(width: 30.0,),
+                Container(width: 1,color: Colors.black26,height: 100,),
+                const SizedBox(width: 10,),
+                Expanded(child: Text('${book.title}',style: const TextStyle(fontSize: 20,color: Colors.black),)),
+              ],
             ),
           ),
         ),

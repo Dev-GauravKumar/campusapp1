@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/link.dart';
 import '../Videos/videoModel.dart';
+import 'package:campusapp/userPreferences.dart';
 class notesList extends StatefulWidget {
   final String collection;
   notesList({required this.collection});
@@ -11,12 +12,13 @@ class notesList extends StatefulWidget {
 }
 
 class _notesListState extends State<notesList> {
+  String? user = userPreferences.getUser();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.collection),
-        backgroundColor: Colors.orange,
+        backgroundColor: '${user}'.toUpperCase()=='STAFF'?Colors.orange:Colors.cyan,
       ),
       body: StreamBuilder<List<video>>(stream:readData(),
           builder: (context,snapshot){

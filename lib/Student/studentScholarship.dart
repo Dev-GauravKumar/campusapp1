@@ -13,6 +13,8 @@ class studentScholarship extends StatefulWidget {
 }
 
 class _studentScholarshipState extends State<studentScholarship> {
+  bool _customTileExpanded=false;
+  DateTime? selectedDate = DateTime.now();
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<scholar>>(stream:readEvent(),
@@ -30,22 +32,56 @@ class _studentScholarshipState extends State<studentScholarship> {
           }
         });
   }
-  Widget buildEvent(scholar scholar)=>ExpansionTile(
-    tilePadding: const EdgeInsets.all(10.0),
-    childrenPadding: const EdgeInsets.all(5.0),
-    title: Text('${scholar.title}',style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
-    subtitle: Text('Last Date: ${scholar.selectedDate}'),
-    children: [
-      Align(
-          alignment: Alignment.topLeft,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              scholar.fileUrl!=null?ElevatedButton(onPressed: ()=>openFile(url: '${scholar.fileUrl}',name: '${scholar.fileName}'), child: const Text('Attached File'),):Container(),
-            ],
-          )),
-      Text('${scholar.discription}'),
-    ],
+  Widget buildEvent(scholar scholar)=>Card(
+    child: ExpansionTile(
+      onExpansionChanged:(bool expanded) {
+        setState(() {
+          _customTileExpanded = expanded;
+        });
+      },
+      textColor: Colors.black,
+      iconColor: Colors.cyan,
+      trailing: _customTileExpanded?const Icon(Icons.keyboard_arrow_down_outlined,size: 40,):const Icon(Icons.keyboard_arrow_up_outlined,size: 40,),
+      tilePadding: const EdgeInsets.all(10.0),
+      childrenPadding: const EdgeInsets.all(5.0),
+      title: Text('${scholar.title}',style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
+      subtitle: Text('Last Date: ${scholar.selectedDate}'),
+      children: [
+        Container(
+          height: 150,
+          width: 350,
+          decoration: BoxDecoration(
+            color: const Color.fromRGBO(243, 246, 251,1),
+            border: Border.all(color: Colors.black26,width: 1),
+            borderRadius: BorderRadius.circular(5),
+          ),
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text('${scholar.discription}'),
+            ),
+          ),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            scholar.fileUrl==null?Container():Padding(
+                padding: const EdgeInsets.only(left: 100,top: 8,bottom: 8),
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      elevation: 10,
+                        shadowColor: Colors.cyan,
+                        primary: Colors.cyan,fixedSize: const Size(150,50)),
+                    onPressed: ()=>openFile(url: '${scholar.fileUrl}', name: '${scholar.fileName}'), child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: const [
+                    Icon(Icons.download),
+                    Text('Attached File')
+                  ],))),
+          ],
+        ),
+      ],
+    ),
   );
   Future openFile({required String url,required String? name})async{
     final file = await downloadFile(url,name!);
@@ -70,7 +106,6 @@ class _studentScholarshipState extends State<studentScholarship> {
       return null;
     }
   }
-
   Stream<List<scholar>> readEvent() => FirebaseFirestore.instance
       .collection('Scholarships')
       .snapshots()

@@ -43,17 +43,17 @@ class _EventState extends State<Event> {
         });
       },
       iconColor: Colors.orange,
-      trailing: _customTileExpanded?Icon(Icons.keyboard_arrow_down_outlined,size: 40,):Icon(Icons.keyboard_arrow_up_outlined,size: 40,),
+      trailing: _customTileExpanded?const Icon(Icons.keyboard_arrow_down_outlined,size: 40,):const Icon(Icons.keyboard_arrow_up_outlined,size: 40,),
       tilePadding: const EdgeInsets.all(10.0),
       childrenPadding: const EdgeInsets.all(5.0),
       title: Text('${event.title}',style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 20,color: Colors.black),),
-      subtitle: Text('${event.selectedDate}\t\t(${event.selectedTime})',style: TextStyle(color: Colors.black),),
+      subtitle: Text('${event.selectedDate}\t\t(${event.selectedTime})',style: const TextStyle(color: Colors.black),),
       children: [
         Container(
           height: 150,
           width: 350,
           decoration: BoxDecoration(
-            color: Color.fromRGBO(243, 246, 251,1),
+            color: const Color.fromRGBO(243, 246, 251,1),
             border: Border.all(color: Colors.black26,width: 1),
             borderRadius: BorderRadius.circular(5),
           ),
@@ -68,12 +68,12 @@ class _EventState extends State<Event> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             event.fileUrl==null?Container():Padding(
-                padding: EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(primary: Colors.orange,fixedSize: Size(150,50)),
                     onPressed: ()=>openFile(url: '${event.fileUrl}', name: '${event.fileName}'), child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
+                  children: const [
                       Icon(Icons.download),
                   Text('Attached File')
                 ],))),
@@ -84,7 +84,7 @@ class _EventState extends State<Event> {
                   child: Container(
                     child: IconButton(
                       onPressed: ()=>editEvent(event),
-                      icon: Icon(Icons.edit,color: Colors.white,),
+                      icon: const Icon(Icons.edit,color: Colors.white,),
                     ),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
@@ -97,7 +97,7 @@ class _EventState extends State<Event> {
                   child: Container(
                     child: IconButton(
                       onPressed: () =>deleteEvent(event),
-                      icon: Icon(Icons.delete,color: Colors.white,),
+                      icon: const Icon(Icons.delete,color: Colors.white,),
                     ),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
@@ -157,7 +157,7 @@ class _EventState extends State<Event> {
             border: OutlineInputBorder(),
           ),
         ),
-        SizedBox(height: 10,),
+        const SizedBox(height: 10,),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -168,7 +168,7 @@ class _EventState extends State<Event> {
               final date= '${selectedDate!.day}-${selectedDate!.month}-${selectedDate!.year}';
               final docEvent=FirebaseFirestore.instance.collection('Events').doc(event.id);
               docEvent.update({'selectedDate':date});
-            }, child: Text('Date')),
+            }, child: const Text('Date')),
             ElevatedButton(
                 style: ElevatedButton.styleFrom(primary: Colors.black),
                 onPressed: ()async{
@@ -176,7 +176,7 @@ class _EventState extends State<Event> {
               final time='${selectedTime!.hour.toString().padLeft(2,'0')}:${selectedTime!.minute.toString().padLeft(2,'0')}';
               final docEvent=FirebaseFirestore.instance.collection('Events').doc(event.id);
               docEvent.update({'selectedTime':time});
-              }, child: Text('Time')),
+              }, child: const Text('Time')),
           ],
         ),
         TextButton(

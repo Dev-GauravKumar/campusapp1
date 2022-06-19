@@ -25,17 +25,17 @@ class _HomePageStaffState extends State<HomePageStaff> {
     return Scaffold(
       drawer: Container(
           width: 250,
-          child: menu()),
+          child: const menu()),
       appBar: AppBar(
         leading: Builder(
           builder: (context) {
             return Container(
                 color: Colors.orange,
-                child: IconButton(onPressed:  ()=>Scaffold.of(context).openDrawer(), icon: Icon(Icons.menu,size: 25,color: Colors.black,)));
+                child: IconButton(onPressed:  ()=>Scaffold.of(context).openDrawer(), icon: const Icon(Icons.menu,size: 25,color: Colors.black,)));
           }
         ),
         backgroundColor: Colors.white,
-        title: RichText(text: TextSpan(text: 'My',style:TextStyle(color: Colors.black,fontSize: 25),
+        title: RichText(text: const TextSpan(text: 'My',style:TextStyle(color: Colors.black,fontSize: 25),
         children:[
          TextSpan(text: ' CAM',style: TextStyle(color: Colors.black,fontSize: 25,fontWeight: FontWeight.bold),),
           TextSpan(text: 'PU',style: TextStyle(color: Colors.orange,fontSize: 25,fontWeight: FontWeight.bold)),
@@ -75,45 +75,61 @@ class _HomePageStaffState extends State<HomePageStaff> {
           ? showModalBottomSheet(
           context: context,
           builder: (context) => ListView(
+
             children: [
+              const SizedBox(height: 5,),
               ListTile(
                 tileColor: Colors.orange,
-                leading: Icon(Icons.post_add),
+                leading: const Icon(Icons.post_add,color: Colors.black,),
+                trailing: const Icon(Icons.add,color: Colors.black,),
                 title: const Text('Notice'),
                 onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context)=>const AddNotice(),)),
               ),
+              const SizedBox(height: 5,),
               ListTile(
                 tileColor: Colors.orange,
-                leading: Icon(Icons.school),
+                leading: const Icon(Icons.school,color: Colors.black,),
+                trailing: const Icon(Icons.add,color: Colors.black,),
                 title: const Text('Scholarship'),
                 onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>const addScholarship(),)),
               ),
+              const SizedBox(height: 5,),
               ListTile(
                 tileColor: Colors.orange,
-                leading: Icon(Icons.event),
+                leading: const Icon(Icons.event,color: Colors.black,),
+                trailing: const Icon(Icons.add,color: Colors.black,),
                 title: const Text('Event'),
                 onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>const addEvent(),),),
               ),
+              const SizedBox(height: 30,),
               ListTile(
-                leading: Icon(Icons.video_library,color: Colors.white,),
+                leading: const Icon(Icons.video_library,color: Colors.white,),
                 tileColor: Colors.black,
-                title: Text('Add Videos',style: TextStyle(color: Colors.white),),
-                onTap:()=>Navigator.push(context, MaterialPageRoute(builder: (context)=> addVideos(),),),),
+                trailing: const Icon(Icons.add,color: Colors.white,),
+                title: const Text('Add Videos',style: TextStyle(color: Colors.white),),
+                onTap:()=>Navigator.push(context, MaterialPageRoute(builder: (context)=> const addVideos(),),),),
+              const SizedBox(height: 5,),
               ListTile(
-                leading: Icon(Icons.book,color: Colors.white,),
+                leading: const Icon(Icons.book,color: Colors.white,),
                 tileColor: Colors.black,
-                title: Text('Add Books',style: TextStyle(color: Colors.white),),
-                onTap:()=>Navigator.push(context, MaterialPageRoute(builder: (context)=> addBooks(),),),),
+                trailing: const Icon(Icons.add,color: Colors.white,),
+                title: const Text('Add Books',style: TextStyle(color: Colors.white),),
+                onTap:()=>Navigator.push(context, MaterialPageRoute(builder: (context)=> const addBooks(),),),),
+              const SizedBox(height: 5,),
               ListTile(
-                leading: Icon(Icons.note_add,color: Colors.white,),
+                leading: const Icon(Icons.note_add,color: Colors.white,),
                 tileColor: Colors.black,
-                title: Text('Add Questions Papers',style: TextStyle(color: Colors.white),),
-                onTap:()=>Navigator.push(context, MaterialPageRoute(builder: (context)=> addQuestionsPaper(),),),),
+                trailing: const Icon(Icons.add,color: Colors.white,),
+                title: const Text('Add Questions Papers',style: TextStyle(color: Colors.white),),
+                onTap:()=>Navigator.push(context, MaterialPageRoute(builder: (context)=> const addQuestionsPaper(),),),),
+              const SizedBox(height: 5,),
               ListTile(
-                leading: Icon(Icons.note_alt,color: Colors.white,),
+                leading: const Icon(Icons.note_alt,color: Colors.white,),
                 tileColor: Colors.black,
-                title: Text('Add Notes',style: TextStyle(color: Colors.white),),
-                onTap:()=>Navigator.push(context, MaterialPageRoute(builder: (context)=> addNotes(),),),),
+                trailing: const Icon(Icons.add,color: Colors.white,),
+                title: const Text('Add Notes',style: TextStyle(color: Colors.white),),
+                onTap:()=>Navigator.push(context, MaterialPageRoute(builder: (context)=> const addNotes(),),),),
+              const SizedBox(height: 5,),
             ],
           ))
           : setState(() {

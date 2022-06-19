@@ -1,9 +1,9 @@
 import 'package:campusapp/Student/studentEvent.dart';
 import 'package:campusapp/Student/studentNotice.dart';
 import 'package:campusapp/Student/studentScholarship.dart';
+import 'package:campusapp/Study/studyHome.dart';
+import 'package:campusapp/menu.dart';
 import 'package:flutter/material.dart';
-import '../Study/studyHome.dart';
-import '../menu.dart';
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -16,29 +16,34 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: menu(),
+      drawer: Container(
+          width: 250,
+          child: const menu()),
       appBar: AppBar(
-        backgroundColor: Colors.red,
-        //leading: IconButton(
-          //  onPressed: () => userPreferences.setUser(''),
-           // icon: const Icon(
-            //  Icons.menu,
-             // size: 30,
-            //)),
-        title: const Text(
-          "My Campus",
-          style: TextStyle(
-              fontSize: 25,
-              fontFamily: "Lobster-Regular",
-              fontWeight: FontWeight.bold),
+        leading: Builder(
+            builder: (context) {
+              return Container(
+                  color: Colors.cyan,
+                  child: IconButton(onPressed:  ()=>Scaffold.of(context).openDrawer(), icon: const Icon(Icons.menu,size: 25,color: Colors.black,)));
+            }
+        ),
+        backgroundColor: Colors.white,
+        title: RichText(text: const TextSpan(text: 'My',style:TextStyle(color: Colors.black,fontSize: 25),
+          children:[
+            TextSpan(text: ' CAM',style: TextStyle(color: Colors.black,fontSize: 25,fontWeight: FontWeight.bold),),
+            TextSpan(text: 'PU',style: TextStyle(color: Colors.cyan,fontSize: 25,fontWeight: FontWeight.bold)),
+            TextSpan(text: 'S',style: TextStyle(color: Colors.black,fontSize: 25,fontWeight: FontWeight.bold),),
+          ],
+        ),
+
         ),
         actions: [
-          IconButton(onPressed: ()=>print('Notification Button Clicked!!'), icon: const Icon(Icons.notifications,size: 25,)),
           IconButton(
-              onPressed: () => print('Search Button Clicked! '),
+              onPressed: () {},
               icon: const Icon(
                 Icons.search,
                 size: 25,
+                color: Colors.black,
               )),
         ],
       ),
@@ -50,13 +55,13 @@ class _HomePageState extends State<HomePage> {
   Widget bottomBar(context){
     return BottomNavigationBar(
       currentIndex: _selectedIndex,
-      selectedItemColor: Colors.lightBlueAccent,
+      selectedItemColor: Colors.black,
       unselectedItemColor: Colors.white,
       items: const <BottomNavigationBarItem>[
-        BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home',backgroundColor: Colors.red),
-        BottomNavigationBarItem(icon: Icon(Icons.event), label: 'Events',backgroundColor: Colors.red),
-        BottomNavigationBarItem(icon: Icon(Icons.school), label: 'Scholarship',backgroundColor: Colors.red),
-        BottomNavigationBarItem(icon: Icon(Icons.book_sharp), label: 'Study',backgroundColor: Colors.red),
+        BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home',backgroundColor: Colors.cyan),
+        BottomNavigationBarItem(icon: Icon(Icons.event), label: 'Events',backgroundColor: Colors.cyan),
+        BottomNavigationBarItem(icon: Icon(Icons.school), label: 'Scholarship',backgroundColor: Colors.cyan),
+        BottomNavigationBarItem(icon: Icon(Icons.book_sharp), label: 'Study',backgroundColor: Colors.cyan),
       ],
       onTap: (index) => setState(() {
         _selectedIndex = index;

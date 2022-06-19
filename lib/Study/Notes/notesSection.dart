@@ -1,5 +1,6 @@
 import 'package:campusapp/Study/Notes/notesList.dart';
 import 'package:flutter/material.dart';
+import 'package:campusapp/userPreferences.dart';
 
 class notesSection extends StatefulWidget {
   const notesSection({Key? key}) : super(key: key);
@@ -9,12 +10,13 @@ class notesSection extends StatefulWidget {
 }
 
 class _notesSectionState extends State<notesSection> {
+  String? user = userPreferences.getUser();
   final collections = ['C Language', 'Data Structures', 'Web Development'];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.orange,
+        backgroundColor: '${user}'.toUpperCase()=='STAFF'?Colors.orange:Colors.cyan,
         title: Text('Notes'),
       ),
       body: ListView.builder(

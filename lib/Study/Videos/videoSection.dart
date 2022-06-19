@@ -1,5 +1,6 @@
 import 'package:campusapp/Study/Videos/videosList.dart';
 import 'package:flutter/material.dart';
+import 'package:campusapp/userPreferences.dart';
 
 class videoSection extends StatefulWidget {
   const videoSection({Key? key}) : super(key: key);
@@ -9,13 +10,14 @@ class videoSection extends StatefulWidget {
 }
 
 class _videoSectionState extends State<videoSection> {
+  String? user = userPreferences.getUser();
   final collections = ['C Language', 'Data Structures', 'Web Development'];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.orange,
-        title: Text('Videos'),
+        backgroundColor: '${user}'.toUpperCase()=='STAFF'?Colors.orange:Colors.cyan,
+        title: const Text('Videos'),
       ),
       body: ListView.builder(
         itemCount: collections.length,
@@ -23,7 +25,7 @@ class _videoSectionState extends State<videoSection> {
           return Card(
             child: ListTile(
               title: Text(collections[index]),
-              trailing: Icon(Icons.arrow_forward_ios),
+              trailing: const Icon(Icons.arrow_forward_ios),
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(

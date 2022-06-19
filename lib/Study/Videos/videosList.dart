@@ -3,6 +3,8 @@ import 'package:campusapp/Study/Videos/playVideo.dart';
 import 'package:campusapp/Study/Videos/videoModel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:campusapp/userPreferences.dart';
+
 class videosList extends StatefulWidget {
   final String collection;
   const videosList({required this.collection});
@@ -12,12 +14,13 @@ class videosList extends StatefulWidget {
 }
 
 class _videosListState extends State<videosList> {
+  String? user = userPreferences.getUser();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.collection),
-        backgroundColor: Colors.orange,
+        backgroundColor: '$user'.toUpperCase()=='STAFF'?Colors.orange:Colors.cyan,
       ),
       body: StreamBuilder<List<video>>(stream:readData(),
           builder: (context,snapshot){
@@ -42,20 +45,18 @@ class _videosListState extends State<videosList> {
       child: Card(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Container(
-            child: Row(
-              children: [
-                Container(
-                  height: 100,
-                  width: 120,
-                  child: CachedNetworkImage(imageUrl: '$image'),
-                ),
-                SizedBox(width: 30.0,),
-                Container(width: 1,height: 100,color: Colors.black26,),
-                SizedBox(width: 10,),
-                Expanded(child: Text('${video.title}',style: TextStyle(fontSize: 20,color: Colors.black),)),
-              ],
-            )
+          child: Row(
+            children: [
+              Container(
+                height: 100,
+                width: 120,
+                child: CachedNetworkImage(imageUrl: '$image'),
+              ),
+              const SizedBox(width: 30.0,),
+              Container(width: 1,height: 100,color: Colors.black26,),
+              const SizedBox(width: 10,),
+              Expanded(child: Text('${video.title}',style: const TextStyle(fontSize: 20,color: Colors.black),)),
+            ],
           ),
         ),
       ),

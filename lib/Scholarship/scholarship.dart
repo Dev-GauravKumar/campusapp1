@@ -15,8 +15,8 @@ class scholarship extends StatefulWidget {
 
 class _scholarshipState extends State<scholarship> {
   bool _customTileExpanded=false;
-  @override
   DateTime? selectedDate = DateTime.now();
+  @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<scholar>>(stream:readEvent(),
         builder: (context,snapshot){
@@ -42,7 +42,7 @@ class _scholarshipState extends State<scholarship> {
       },
       textColor: Colors.black,
       iconColor: Colors.orange,
-      trailing: _customTileExpanded?Icon(Icons.keyboard_arrow_down_outlined,size: 40,):Icon(Icons.keyboard_arrow_up_outlined,size: 40,),
+      trailing: _customTileExpanded?const Icon(Icons.keyboard_arrow_down_outlined,size: 40,):const Icon(Icons.keyboard_arrow_up_outlined,size: 40,),
       tilePadding: const EdgeInsets.all(10.0),
       childrenPadding: const EdgeInsets.all(5.0),
       title: Text('${scholar.title}',style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
@@ -52,7 +52,7 @@ class _scholarshipState extends State<scholarship> {
           height: 150,
           width: 350,
           decoration: BoxDecoration(
-            color: Color.fromRGBO(243, 246, 251,1),
+            color: const Color.fromRGBO(243, 246, 251,1),
             border: Border.all(color: Colors.black26,width: 1),
             borderRadius: BorderRadius.circular(5),
           ),
@@ -67,12 +67,12 @@ class _scholarshipState extends State<scholarship> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             scholar.fileUrl==null?Container():Padding(
-                padding: EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(primary: Colors.orange,fixedSize: Size(150,50)),
                     onPressed: ()=>openFile(url: '${scholar.fileUrl}', name: '${scholar.fileName}'), child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
+                  children: const [
                     Icon(Icons.download),
                     Text('Attached File')
                   ],))),
@@ -83,7 +83,7 @@ class _scholarshipState extends State<scholarship> {
                   child: Container(
                     child: IconButton(
                       onPressed: ()=>editEvent(scholar),
-                      icon: Icon(Icons.edit,color: Colors.white,),
+                      icon: const Icon(Icons.edit,color: Colors.white,),
                     ),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
@@ -96,7 +96,7 @@ class _scholarshipState extends State<scholarship> {
                   child: Container(
                     child: IconButton(
                       onPressed: () =>deleteScholar(scholar),
-                      icon: Icon(Icons.delete,color: Colors.white,),
+                      icon: const Icon(Icons.delete,color: Colors.white,),
                     ),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),

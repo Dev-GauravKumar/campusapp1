@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:campusapp/userPreferences.dart';
 
 class playVideo extends StatefulWidget {
   String url;
@@ -11,12 +12,13 @@ class playVideo extends StatefulWidget {
 }
 
 class _playVideoState extends State<playVideo> {
+  String? user = userPreferences.getUser();
   late YoutubePlayerController _controller;
   @override
   void initState(){
     super.initState();
     _controller=YoutubePlayerController(initialVideoId: YoutubePlayer.convertUrlToId(widget.url)!,
-      flags: YoutubePlayerFlags(
+      flags: const YoutubePlayerFlags(
         mute: false,
       loop: true,
       autoPlay: true,
@@ -27,21 +29,24 @@ class _playVideoState extends State<playVideo> {
       }
     });
   }
+  @override
   void deactivate(){
     _controller.pause();
     super.dispose();
   }
+  @override
   void dispose(){
     _controller.dispose();
     super.dispose();
   }
+  @override
   Widget build(BuildContext context) {
     return YoutubePlayerBuilder(
       player: YoutubePlayer(controller: _controller),
       builder: (BuildContext , player ) =>Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.red,
-          title: Text('${widget.collection}'),
+          backgroundColor: '${user}'.toUpperCase()=='STAFF'?Colors.orange:Colors.cyan,
+          title: Text(widget.collection),
         ),
       body: ListView(
         children: [

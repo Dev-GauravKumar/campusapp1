@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/link.dart';
 import '../Videos/videoModel.dart';
+import 'package:campusapp/userPreferences.dart';
 class qPaperList extends StatefulWidget {
   final String collection;
   qPaperList({required this.collection});
@@ -11,12 +12,13 @@ class qPaperList extends StatefulWidget {
 }
 
 class _qPaperListState extends State<qPaperList> {
+  String? user = userPreferences.getUser();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.collection),
-        backgroundColor: Colors.orange,
+        backgroundColor: '$user'.toUpperCase()=='STAFF'?Colors.orange:Colors.cyan,
       ),
       body: StreamBuilder<List<video>>(stream:readData(),
           builder: (context,snapshot){
@@ -53,12 +55,12 @@ class _qPaperListState extends State<qPaperList> {
                       ),
                       height: 100,
                       width: 120,
-                      child: Icon(Icons.picture_as_pdf,size: 100,color: Colors.white,),
+                      child: const Icon(Icons.picture_as_pdf,size: 100,color: Colors.white,),
                     ),
-                    SizedBox(width: 30.0,),
+                    const SizedBox(width: 30.0,),
                     Container(height: 100,width: 1,color: Colors.black26,),
-                    SizedBox(width: 10,),
-                    Expanded(child: Text('${QP.title}',style: TextStyle(fontSize: 20,color: Colors.black),)),
+                    const SizedBox(width: 10,),
+                    Expanded(child: Text('${QP.title}',style: const TextStyle(fontSize: 20,color: Colors.black),)),
                   ],
                 )
             ),

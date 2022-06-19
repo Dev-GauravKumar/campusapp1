@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:campusapp/Event/EventModle.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
@@ -13,6 +14,9 @@ class studentEvent extends StatefulWidget {
 }
 
 class _studentEventState extends State<studentEvent> {
+  DateTime? selectedDate = DateTime.now();
+  TimeOfDay? selectedTime = TimeOfDay.now();
+  bool _customTileExpanded=false;
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<event>>(stream:readEvent(),
@@ -31,22 +35,55 @@ class _studentEventState extends State<studentEvent> {
         });
   }
 
-  Widget buildEvent(event event)=>ExpansionTile(
-    tilePadding: const EdgeInsets.all(10.0),
-    childrenPadding: const EdgeInsets.all(5.0),
-    title: Text('${event.title}',style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
-    subtitle: Text('${event.selectedDate}\n(${event.selectedTime})'),
-    children: [
-      Align(
-          alignment: Alignment.topLeft,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              event.fileUrl!=null?ElevatedButton(onPressed: ()=>openFile(url: '${event.fileUrl}',name: '${event.fileName}'), child: const Text('Attached File'),):Container(),
-            ],
-          )),
-      Text('${event.discription}'),
-    ],
+  Widget buildEvent(event event)=>Card(
+    child: ExpansionTile(
+      onExpansionChanged:(bool expanded){
+        setState((){
+          _customTileExpanded=expanded;
+        });
+      },
+      iconColor: Colors.cyan,
+      trailing: _customTileExpanded?const Icon(Icons.keyboard_arrow_down_outlined,size: 40,):const Icon(Icons.keyboard_arrow_up_outlined,size: 40,),
+      tilePadding: const EdgeInsets.all(10.0),
+      childrenPadding: const EdgeInsets.all(5.0),
+      title: Text('${event.title}',style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 20,color: Colors.black),),
+      subtitle: Text('${event.selectedDate}\t\t(${event.selectedTime})',style: const TextStyle(color: Colors.black),),
+      children: [
+        Container(
+          height: 150,
+          width: 350,
+          decoration: BoxDecoration(
+            color: const Color.fromRGBO(243, 246, 251,1),
+            border: Border.all(color: Colors.black26,width: 1),
+            borderRadius: BorderRadius.circular(5),
+          ),
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text('${event.discription}'),
+            ),
+          ),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            event.fileUrl==null?Container():Padding(
+                padding: const EdgeInsets.only(left: 100,top: 8,bottom: 8),
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        shadowColor: Colors.cyan,
+                        elevation: 10,
+                        primary: Colors.cyan,fixedSize: Size(150,50)),
+                    onPressed: ()=>openFile(url: '${event.fileUrl}', name: '${event.fileName}'), child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: const [
+                    Icon(Icons.download),
+                    Text('Attached File')
+                  ],))),
+          ],
+        ),
+      ],
+    ),
   );
 
   Stream<List<event>> readEvent() => FirebaseFirestore.instance
@@ -54,6 +91,129 @@ class _studentEventState extends State<studentEvent> {
       .snapshots()
       .map((snapshot) => snapshot.docs.map((doc) => event.fromJson(doc.data())).toList());
 
+  deleteEvent(event event){
+    return showDialog(context: context, builder: (context)=>AlertDialog(
+      title: const Text('Are You Sure?'),
+      content: const Text('You Want To Delete This Event'),
+      actions: [
+        TextButton(onPressed: ()=>Navigator.pop(context), child: const Text('No',style: TextStyle(color: Colors.black),),),
+        TextButton(onPressed: ()async{
+          final docEvent=FirebaseFirestore.instance.collection('Events').doc(event.id);
+          docEvent.delete();
+          Navigator.pop(context);
+          await delete(event.filePath);
+        }, child: const Text('Yes',style: TextStyle(color: Colors.orange),),),
+      ],
+
+    ));
+  }
+  editEvent(event event){
+    TextEditingController titleController=TextEditingController();
+    TextEditingController discriptionController=TextEditingController();
+    return showDialog(context: context, builder: (context)=>AlertDialog(
+      title: const Text('Edit Fields'),
+      actions: [
+        TextField(
+          controller: titleController,
+          decoration: const InputDecoration(
+            labelText: 'Title',
+            border: OutlineInputBorder(),
+          ),
+        ),
+        const SizedBox(height: 10,),
+        TextField(
+          minLines: 1,
+          maxLines: 100,
+          controller: discriptionController,
+          decoration: const InputDecoration(
+            labelText: 'Discription',
+            border: OutlineInputBorder(),
+          ),
+        ),
+        const SizedBox(height: 10,),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            ElevatedButton(
+                style: ElevatedButton.styleFrom(primary: Colors.orange),
+                onPressed: ()async{
+                  await datePicker(context);
+                  final date= '${selectedDate!.day}-${selectedDate!.month}-${selectedDate!.year}';
+                  final docEvent=FirebaseFirestore.instance.collection('Events').doc(event.id);
+                  docEvent.update({'selectedDate':date});
+                }, child: const Text('Date')),
+            ElevatedButton(
+                style: ElevatedButton.styleFrom(primary: Colors.black),
+                onPressed: ()async{
+                  await timePicker(context);
+                  final time='${selectedTime!.hour.toString().padLeft(2,'0')}:${selectedTime!.minute.toString().padLeft(2,'0')}';
+                  final docEvent=FirebaseFirestore.instance.collection('Events').doc(event.id);
+                  docEvent.update({'selectedTime':time});
+                }, child: const Text('Time')),
+          ],
+        ),
+        TextButton(
+            onPressed: (){
+              final docPost =
+              FirebaseFirestore.instance.collection('Events').doc(event.id);
+
+              if (titleController.text != '' &&
+                  discriptionController.text != '') {
+                docPost.update({
+                  'title': titleController.text,
+                  'discription': discriptionController.text,
+                });
+                Navigator.pop(context);
+              } else if (titleController.text != '' &&
+                  discriptionController.text == '') {
+                docPost.update({
+                  'title': titleController.text,
+                });
+                Navigator.pop(context);
+              } else if (discriptionController.text != '' &&
+                  titleController.text == '') {
+                docPost.update({
+                  'discription': discriptionController.text,
+                });
+                Navigator.pop(context);
+              } else {
+                Navigator.pop(context);
+              }
+            }, child: const Text('Done',style: TextStyle(color: Colors.orange),)),
+      ],
+    ));
+  }
+  Future datePicker(context) async {
+    final DateTime current = DateTime.now();
+    final DateTime? selected = await showDatePicker(
+      context: context,
+      initialDate: selectedDate!,
+      firstDate: DateTime(current.year),
+      lastDate: DateTime(current.year + 5),
+    );
+    if (selected != null && selected != selectedDate) {
+      setState(() {
+        selectedDate = selected;
+      });
+    }
+  }
+  Future timePicker(context) async {
+    final TimeOfDay? timeOfDay = await showTimePicker(
+        context: context,
+        initialTime: selectedTime!,
+        initialEntryMode: TimePickerEntryMode.dial);
+    if (timeOfDay != null && timeOfDay != selectedTime) {
+      setState(() {
+        selectedTime = timeOfDay;
+      });
+    }
+  }
+  Future<void> delete(String? ref) async {
+    final storage = FirebaseStorage.instance;
+    await storage.ref(ref).delete();
+    // Rebuild the UI
+    setState(() {});
+  }
   Future openFile({required String url,required String? name})async{
     final file = await downloadFile(url,name!);
     if(file==null)return;
