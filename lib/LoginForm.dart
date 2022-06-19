@@ -61,7 +61,7 @@ class _LoginFormState extends State<LoginForm> {
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.white,
-                    labelText: 'Username',
+                    hintText: 'Username',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                       borderSide: BorderSide.none
@@ -72,7 +72,7 @@ class _LoginFormState extends State<LoginForm> {
                           )
                         : IconButton(
                             onPressed: () => userNameController.clear(),
-                            icon: const Icon(Icons.close)),
+                            icon: const Icon(Icons.close,color: Colors.black,)),
                     errorText: errorUsername,
                   ),
                   textInputAction: TextInputAction.done,
@@ -84,15 +84,15 @@ class _LoginFormState extends State<LoginForm> {
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.white,
-                    labelText: 'Password',
+                    hintText: 'Password',
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                         borderSide: BorderSide.none
                     ),
                     suffixIcon: IconButton(
                       icon: isPasswordVisible
-                          ? const Icon(Icons.visibility_off)
-                          : const Icon(Icons.visibility),
+                          ? const Icon(Icons.visibility_off,color: Colors.black,)
+                          : const Icon(Icons.visibility,color: Colors.black,),
                       onPressed: () =>
                           setState(() => isPasswordVisible = !isPasswordVisible),
                     ),
