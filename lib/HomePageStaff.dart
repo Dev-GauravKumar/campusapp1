@@ -24,39 +24,52 @@ class _HomePageStaffState extends State<HomePageStaff> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawerEnableOpenDragGesture: true,
       extendBody: true,
       drawer: Container(
           width: 250,
           child: const menu()),
-      appBar: AppBar(
-        leading: Builder(
-          builder: (context) {
-            return Container(
-                color: Colors.orange,
-                child: IconButton(onPressed:  ()=>Scaffold.of(context).openDrawer(), icon: const Icon(Icons.menu,size: 25,color: Colors.black,)));
-          }
-        ),
-        backgroundColor: Colors.white,
-        title: RichText(text: const TextSpan(text: 'My',style:TextStyle(color: Colors.black,fontSize: 25),
-        children:[
-         TextSpan(text: ' CAM',style: TextStyle(color: Colors.black,fontSize: 25,fontWeight: FontWeight.bold),),
-          TextSpan(text: 'PU',style: TextStyle(color: Colors.orange,fontSize: 25,fontWeight: FontWeight.bold)),
-          TextSpan(text: 'S',style: TextStyle(color: Colors.black,fontSize: 25,fontWeight: FontWeight.bold),),
-        ],
-        ),
+      body: NestedScrollView(
+        headerSliverBuilder:(context,innerBoxIsSCrolled)=> [
+          SliverAppBar(
+            expandedHeight: 150,
+            flexibleSpace: Align(
+              alignment: Alignment.bottomLeft,
+              child: Container(
+                height: 100,
+                width: 100,
+                color: Colors.cyan,),
+            ),
+            leadingWidth: 100,
+            leading: Builder(
+                builder: (context) {
+                  return Container(
+                      color: Colors.cyan,
+                      child: IconButton(onPressed:  ()=>Scaffold.of(context).openDrawer(), icon: const Icon(Icons.menu,size: 25,color: Colors.black,)));
+                }
+            ),
+            backgroundColor: Colors.white,
+            title: RichText(text: const TextSpan(text: 'My   ___',style:TextStyle(color: Colors.black,fontSize: 25),
+              children:[
+                TextSpan(text: '\nCAM',style: TextStyle(color: Colors.black,fontSize: 25,fontWeight: FontWeight.bold),),
+                TextSpan(text: 'PU',style: TextStyle(color: Colors.cyan,fontSize: 25,fontWeight: FontWeight.bold)),
+                TextSpan(text: 'S',style: TextStyle(color: Colors.black,fontSize: 25,fontWeight: FontWeight.bold),),
+              ],
+            ),
 
-        ),
-        actions: [
-          IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.search,
-                size: 25,
-                color: Colors.black,
-              )),
-        ],
+            ),
+            actions: [
+              IconButton(
+                  onPressed: () {},
+                  icon: const Icon(
+                    Icons.search,
+                    size: 25,
+                    color: Colors.black,
+                  )),
+            ],
+          ),],
+        body: pages[_selectedIndex],
       ),
-      body: pages[_selectedIndex],
       bottomNavigationBar: bottomBar(context),
     );
   }
