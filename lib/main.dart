@@ -20,7 +20,6 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String? user;
-
   @override
   void initState(){
     super.initState();

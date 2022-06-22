@@ -3,6 +3,7 @@ import 'package:campusapp/Student/studentNotice.dart';
 import 'package:campusapp/Student/studentScholarship.dart';
 import 'package:campusapp/Study/studyHome.dart';
 import 'package:campusapp/menu.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -53,16 +54,24 @@ class _HomePageState extends State<HomePage> {
   }
   final pages=const [home(),studentEvent(),studentScholarship(),studyHome()];
   Widget bottomBar(context){
-    return BottomNavigationBar(
-      currentIndex: _selectedIndex,
-      selectedItemColor: Colors.black,
-      unselectedItemColor: Colors.white,
-      items: const <BottomNavigationBarItem>[
+    return CurvedNavigationBar(
+      height: 50,
+      items: [Icon(Icons.home,color: _selectedIndex==0?Colors.black:Colors.white,),
+        Icon(Icons.event,color: _selectedIndex==1?Colors.black:Colors.white,),
+        Icon(Icons.school,color: _selectedIndex==2?Colors.black:Colors.white,),
+        Icon(Icons.book_sharp,color: _selectedIndex==3?Colors.black:Colors.white,),
+      ],
+      buttonBackgroundColor: Colors.cyan,
+      backgroundColor: Colors.transparent,
+      color: Colors.black,
+      index: _selectedIndex,
+
+      /*const <BottomNavigationBarItem>[
         BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home',backgroundColor: Colors.cyan),
         BottomNavigationBarItem(icon: Icon(Icons.event), label: 'Events',backgroundColor: Colors.cyan),
         BottomNavigationBarItem(icon: Icon(Icons.school), label: 'Scholarship',backgroundColor: Colors.cyan),
         BottomNavigationBarItem(icon: Icon(Icons.book_sharp), label: 'Study',backgroundColor: Colors.cyan),
-      ],
+      ],*/
       onTap: (index) => setState(() {
         _selectedIndex = index;
       }),
