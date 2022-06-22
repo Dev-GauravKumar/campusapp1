@@ -13,57 +13,90 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  ScrollController _controller=ScrollController();
   int _selectedIndex=0;
+  bool get _isAppBarExpanded {
+    return _controller.hasClients &&
+        _controller.offset > (200 - kToolbarHeight);
+  }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawerEnableOpenDragGesture: true,
-      extendBody: true,
-      drawer: Container(
-          width: 250,
-          child: const menu()),
-      body: NestedScrollView(
-          headerSliverBuilder:(context,innerBoxIsSCrolled)=> [
-            SliverAppBar(
-              expandedHeight: 150,
-          flexibleSpace: Align(
-            alignment: Alignment.bottomLeft,
-            child: Container(
-              height: 100,
-              width: 100,
-              color: Colors.cyan,),
-          ),
-          leadingWidth: 100,
-          leading: Builder(
-              builder: (context) {
-                return Container(
-                    color: Colors.cyan,
-                    child: IconButton(onPressed:  ()=>Scaffold.of(context).openDrawer(), icon: const Icon(Icons.menu,size: 25,color: Colors.black,)));
-              }
-          ),
-          backgroundColor: Colors.white,
-          title: RichText(text: const TextSpan(text: 'My   ___',style:TextStyle(color: Colors.black,fontSize: 25),
-            children:[
-              TextSpan(text: '\nCAM',style: TextStyle(color: Colors.black,fontSize: 25,fontWeight: FontWeight.bold),),
-              TextSpan(text: 'PU',style: TextStyle(color: Colors.cyan,fontSize: 25,fontWeight: FontWeight.bold)),
-              TextSpan(text: 'S',style: TextStyle(color: Colors.black,fontSize: 25,fontWeight: FontWeight.bold),),
-            ],
-          ),
+    return SafeArea(
+      child: Scaffold(
+        drawerEnableOpenDragGesture: true,
+        extendBody: true,
+        drawer: Container(
+            width: 250,
+            child: const menu()),
+        body: NestedScrollView(
+          controller: _controller,
+            headerSliverBuilder:(context,innerBoxIsSCrolled)=> [
+              SliverAppBar(
+                bottom: PreferredSize(child: _isAppBarExpanded?AppBar(
+                  leadingWidth: 100,
+                  leading: Builder(
+                      builder: (context) {
+                        return Container(
+                            color: Colors.cyan,
+                            child: IconButton(onPressed:  ()=>Scaffold.of(context).openDrawer(), icon: const Icon(Icons.menu,size: 25,color: Colors.black,)));
+                      }
+                  ),
+                  backgroundColor: Colors.white,
+                  title: RichText(text: const TextSpan(text: 'My',style:TextStyle(color: Colors.black,fontSize: 25),
+                  children:[
+                    TextSpan(text: '  CAM',style: TextStyle(color: Colors.black,fontSize: 25,fontWeight: FontWeight.bold),),
+                    TextSpan(text: 'PU',style: TextStyle(color: Colors.cyan,fontSize: 25,fontWeight: FontWeight.bold)),
+                    TextSpan(text: 'S',style: TextStyle(color: Colors.black,fontSize: 25,fontWeight: FontWeight.bold),),
+                  ],
+                ),
 
-          ),
-          actions: [
-            IconButton(
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.search,
-                  size: 25,
-                  color: Colors.black,
-                )),
-          ],
-        ),],
-      body: pages[_selectedIndex],
+                ),
+                actions: [
+                  IconButton(onPressed: (){}, icon: Icon(Icons.search,color: Colors.black,size: 25,),),
+                ],
+                ):Container(), preferredSize: Size.fromHeight(0)),
+                pinned: true,
+                expandedHeight: 150,
+            flexibleSpace: Align(
+              alignment: Alignment.bottomLeft,
+              child: Container(
+                height: 100,
+                width: 100,
+                color: Colors.cyan,),
+            ),
+            leadingWidth: 100,
+            leading: Builder(
+                builder: (context) {
+                  return Container(
+                      color: Colors.cyan,
+                      child: IconButton(onPressed:  ()=>Scaffold.of(context).openDrawer(), icon: const Icon(Icons.menu,size: 25,color: Colors.black,)));
+                }
+            ),
+            backgroundColor: Colors.white,
+            forceElevated: true,
+            title: RichText(text: const TextSpan(text: 'My   ___',style:TextStyle(color: Colors.black,fontSize: 25),
+              children:[
+                TextSpan(text: '\nCAM',style: TextStyle(color: Colors.black,fontSize: 25,fontWeight: FontWeight.bold),),
+                TextSpan(text: 'PU',style: TextStyle(color: Colors.cyan,fontSize: 25,fontWeight: FontWeight.bold)),
+                TextSpan(text: 'S',style: TextStyle(color: Colors.black,fontSize: 25,fontWeight: FontWeight.bold),),
+              ],
+            ),
+
+            ),
+            actions: [
+              IconButton(
+                  onPressed: () {},
+                  icon: const Icon(
+                    Icons.search,
+                    size: 25,
+                    color: Colors.black,
+                  )),
+            ],
+          ),],
+        body: pages[_selectedIndex],
+        ),
+        bottomNavigationBar: bottomBar(context),
       ),
-      bottomNavigationBar: bottomBar(context),
     );
   }
   final pages=const [home(),studentEvent(),studentScholarship(),studyHome()];
@@ -99,7 +132,10 @@ class home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(children: const [
       Text('News',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
-      studentNotice(),
+      Padding(
+        padding: EdgeInsets.only(top: 25),
+        child: studentNotice(),
+      ),
     ],);
   }
 }

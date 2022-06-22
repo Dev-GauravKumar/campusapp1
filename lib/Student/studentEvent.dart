@@ -25,9 +25,17 @@ class _studentEventState extends State<studentEvent> {
             return Text('Something Went Wrong! ${snapshot.error}');
           }else if(snapshot.hasData){
             final events=snapshot.data;
-            return ListView(
-              scrollDirection: Axis.vertical,
-              children: events!.map(buildEvent).toList(),
+            return Stack(
+              children:[
+                Text('Events',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+
+                Padding(
+                  padding: const EdgeInsets.only(top: 25),
+                  child: ListView(
+                  scrollDirection: Axis.vertical,
+                  children: events!.map(buildEvent).toList(),
+              ),
+                ),],
             );
           }else{
             return const Center(child: CircularProgressIndicator());
@@ -35,7 +43,7 @@ class _studentEventState extends State<studentEvent> {
         });
   }
 
-  Widget buildEvent(event event)=>Card(
+  Widget buildEvent(event event)=> Card(
     child: ExpansionTile(
       onExpansionChanged:(bool expanded){
         setState((){

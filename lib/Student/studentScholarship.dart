@@ -23,9 +23,17 @@ class _studentScholarshipState extends State<studentScholarship> {
             return Text('Something Went Wrong! ${snapshot.error}');
           }else if(snapshot.hasData){
             final scholar=snapshot.data;
-            return ListView(
-              scrollDirection: Axis.vertical,
-              children: scholar!.map(buildEvent).toList(),
+            return Stack(
+              children:[
+                Text('Scholarships',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                Padding(
+                  padding: const EdgeInsets.only(top: 25),
+                  child: ListView(
+                  scrollDirection: Axis.vertical,
+                  children: scholar!.map(buildEvent).toList(),
+              ),
+                ),
+          ],
             );
           }else{
             return const Center(child: CircularProgressIndicator());
