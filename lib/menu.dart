@@ -53,8 +53,8 @@ class menu extends StatelessWidget {
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 elevation: 20,
-                  shadowColor: '$user'.toUpperCase()=='STAFF'?Colors.orange:Colors.cyan,
-                  primary: '$user'.toUpperCase()=='STAFF'?Colors.orange:Colors.cyan, fixedSize: const Size(50, 40)),
+                  shadowColor: '$user'.toUpperCase()=='STAFF'?Color.fromRGBO( 	255, 107, 3,1):Color.fromRGBO( 	112,229,177,1),
+                  primary: '$user'.toUpperCase()=='STAFF'?Color.fromRGBO( 	255, 107, 3,1):Color.fromRGBO( 	112,229,177,1), fixedSize: const Size(50, 40)),
               child: const Text('Logout'),
               onPressed: () {
                 userPreferences.setUser('');

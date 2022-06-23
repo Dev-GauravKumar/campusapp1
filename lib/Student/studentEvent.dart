@@ -50,7 +50,7 @@ class _studentEventState extends State<studentEvent> {
           _customTileExpanded=expanded;
         });
       },
-      iconColor: Colors.cyan,
+      iconColor: Color.fromRGBO( 	112,229,177,1),
       trailing: _customTileExpanded?const Icon(Icons.keyboard_arrow_down_outlined,size: 40,):const Icon(Icons.keyboard_arrow_up_outlined,size: 40,),
       tilePadding: const EdgeInsets.all(10.0),
       childrenPadding: const EdgeInsets.all(5.0),
@@ -79,9 +79,9 @@ class _studentEventState extends State<studentEvent> {
                 padding: const EdgeInsets.only(left: 100,top: 8,bottom: 8),
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                        shadowColor: Colors.cyan,
+                        shadowColor: Color.fromRGBO( 	112,229,177,1),
                         elevation: 10,
-                        primary: Colors.cyan,fixedSize: Size(150,50)),
+                        primary: Color.fromRGBO( 	112,229,177,1),fixedSize: Size(150,50)),
                     onPressed: ()=>openFile(url: '${event.fileUrl}', name: '${event.fileName}'), child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: const [

@@ -17,7 +17,11 @@ class _HomePageState extends State<HomePage> {
   int _selectedIndex=0;
   bool get _isAppBarExpanded {
     return _controller.hasClients &&
-        _controller.offset > (200 - kToolbarHeight);
+        _controller.offset > (120 - kToolbarHeight);
+  }
+  void initState(){
+    super.initState();
+    _controller.addListener(() {setState((){});});
   }
   @override
   Widget build(BuildContext context) {
@@ -29,23 +33,37 @@ class _HomePageState extends State<HomePage> {
             width: 250,
             child: const menu()),
         body: NestedScrollView(
+          floatHeaderSlivers: true,
           controller: _controller,
             headerSliverBuilder:(context,innerBoxIsSCrolled)=> [
               SliverAppBar(
-                bottom: PreferredSize(child: _isAppBarExpanded?AppBar(
+                bottom: PreferredSize(
+                    preferredSize: Size.fromHeight(0),
+                    child: _isAppBarExpanded?AppBar(
                   leadingWidth: 100,
                   leading: Builder(
                       builder: (context) {
                         return Container(
-                            color: Colors.cyan,
-                            child: IconButton(onPressed:  ()=>Scaffold.of(context).openDrawer(), icon: const Icon(Icons.menu,size: 25,color: Colors.black,)));
+                            color: Color.fromRGBO( 	112,229,177,1),
+                            child: Padding(
+                              padding: const EdgeInsets.only(top:8,left:25,right: 25,bottom: 8),
+                              child: Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors.black,
+                                      width: 1,
+                                    ),
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  child: IconButton(onPressed:  ()=>Scaffold.of(context).openDrawer(), icon: const Icon(Icons.sort,size: 25,color: Colors.black,))),
+                            ),);
                       }
                   ),
-                  backgroundColor: Colors.white,
-                  title: RichText(text: const TextSpan(text: 'My',style:TextStyle(color: Colors.black,fontSize: 25),
+                  backgroundColor: Color.fromRGBO( 	112,229,177,1),
+                  title: RichText(text: const TextSpan(text: 'My   ___',style:TextStyle(color: Colors.black,fontSize: 25),
                   children:[
-                    TextSpan(text: '  CAM',style: TextStyle(color: Colors.black,fontSize: 25,fontWeight: FontWeight.bold),),
-                    TextSpan(text: 'PU',style: TextStyle(color: Colors.cyan,fontSize: 25,fontWeight: FontWeight.bold)),
+                    TextSpan(text: '\nCAM',style: TextStyle(color: Colors.black,fontSize: 25,fontWeight: FontWeight.bold),),
+                    TextSpan(text: 'PU',style: TextStyle(color: Colors.white,fontSize: 25,fontWeight: FontWeight.bold)),
                     TextSpan(text: 'S',style: TextStyle(color: Colors.black,fontSize: 25,fontWeight: FontWeight.bold),),
                   ],
                 ),
@@ -54,30 +72,46 @@ class _HomePageState extends State<HomePage> {
                 actions: [
                   IconButton(onPressed: (){}, icon: Icon(Icons.search,color: Colors.black,size: 25,),),
                 ],
-                ):Container(), preferredSize: Size.fromHeight(0)),
+                ):SizedBox(),
+                ),
                 pinned: true,
-                expandedHeight: 150,
-            flexibleSpace: Align(
-              alignment: Alignment.bottomLeft,
-              child: Container(
-                height: 100,
-                width: 100,
-                color: Colors.cyan,),
+                expandedHeight: 120,
+            flexibleSpace: Stack(
+              children:[ Align(
+                alignment: Alignment.centerLeft,
+                child: Container(
+                  height: 150,
+                  width: 110,
+                  color: Color.fromRGBO( 	112,229,177,1),),
+              ),
+              ],
             ),
             leadingWidth: 100,
             leading: Builder(
                 builder: (context) {
                   return Container(
-                      color: Colors.cyan,
-                      child: IconButton(onPressed:  ()=>Scaffold.of(context).openDrawer(), icon: const Icon(Icons.menu,size: 25,color: Colors.black,)));
+                      color: Color.fromRGBO( 	112,229,177,1),
+                      child:Padding(
+                      padding: const EdgeInsets.only(top:8,left: 25,right: 25,bottom: 8),
+                  child: Container(
+                  decoration: BoxDecoration(
+                  border: Border.all(
+                  color: Colors.black,
+                  width: 1,
+                  ),
+                  borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: IconButton(onPressed:  ()=>Scaffold.of(context).openDrawer(), icon: const Icon(Icons.sort,size: 25,color: Colors.black,))),
+                  ),
+                  );
                 }
             ),
             backgroundColor: Colors.white,
-            forceElevated: true,
+            forceElevated: innerBoxIsSCrolled,
             title: RichText(text: const TextSpan(text: 'My   ___',style:TextStyle(color: Colors.black,fontSize: 25),
               children:[
                 TextSpan(text: '\nCAM',style: TextStyle(color: Colors.black,fontSize: 25,fontWeight: FontWeight.bold),),
-                TextSpan(text: 'PU',style: TextStyle(color: Colors.cyan,fontSize: 25,fontWeight: FontWeight.bold)),
+                TextSpan(text: 'PU',style: TextStyle(color: Color.fromRGBO( 	112,229,177,1),fontSize: 25,fontWeight: FontWeight.bold)),
                 TextSpan(text: 'S',style: TextStyle(color: Colors.black,fontSize: 25,fontWeight: FontWeight.bold),),
               ],
             ),
@@ -108,17 +142,10 @@ class _HomePageState extends State<HomePage> {
         Icon(Icons.school,color: _selectedIndex==2?Colors.black:Colors.white,),
         Icon(Icons.book_sharp,color: _selectedIndex==3?Colors.black:Colors.white,),
       ],
-      buttonBackgroundColor: Colors.cyan,
+      buttonBackgroundColor: Color.fromRGBO( 	112,229,177,1),
       backgroundColor: Colors.transparent,
       color: Colors.black,
       index: _selectedIndex,
-
-      /*const <BottomNavigationBarItem>[
-        BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home',backgroundColor: Colors.cyan),
-        BottomNavigationBarItem(icon: Icon(Icons.event), label: 'Events',backgroundColor: Colors.cyan),
-        BottomNavigationBarItem(icon: Icon(Icons.school), label: 'Scholarship',backgroundColor: Colors.cyan),
-        BottomNavigationBarItem(icon: Icon(Icons.book_sharp), label: 'Study',backgroundColor: Colors.cyan),
-      ],*/
       onTap: (index) => setState(() {
         _selectedIndex = index;
       }),

@@ -25,9 +25,17 @@ class _EventState extends State<Event> {
         return Text('Something Went Wrong! ${snapshot.error}');
       }else if(snapshot.hasData){
         final events=snapshot.data;
-        return ListView(
-          scrollDirection: Axis.vertical,
-          children: events!.map(buildEvent).toList(),
+        return Stack(
+          children:[
+          Text('Events',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+
+          Padding(
+            padding: const EdgeInsets.only(top: 25),
+            child: ListView(
+              scrollDirection: Axis.vertical,
+              children: events!.map(buildEvent).toList(),
+            ),
+          ),],
         );
       }else{
         return const Center(child: CircularProgressIndicator());
@@ -42,7 +50,7 @@ class _EventState extends State<Event> {
           _customTileExpanded=expanded;
         });
       },
-      iconColor: Colors.orange,
+      iconColor: Color.fromRGBO( 	255, 107, 3,1),
       trailing: _customTileExpanded?const Icon(Icons.keyboard_arrow_down_outlined,size: 40,):const Icon(Icons.keyboard_arrow_up_outlined,size: 40,),
       tilePadding: const EdgeInsets.all(10.0),
       childrenPadding: const EdgeInsets.all(5.0),
@@ -70,7 +78,7 @@ class _EventState extends State<Event> {
             event.fileUrl==null?Container():Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(primary: Colors.orange,fixedSize: Size(150,50)),
+                    style: ElevatedButton.styleFrom(primary: Color.fromRGBO( 	255, 107, 3,1),fixedSize: Size(150,50)),
                     onPressed: ()=>openFile(url: '${event.fileUrl}', name: '${event.fileName}'), child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: const [
@@ -88,7 +96,7 @@ class _EventState extends State<Event> {
                     ),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
-                      color: Colors.orange,
+                      color: Color.fromRGBO( 	255, 107, 3,1),
                     ),
                   ),
                 ),

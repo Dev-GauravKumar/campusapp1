@@ -48,7 +48,7 @@ class _studentScholarshipState extends State<studentScholarship> {
         });
       },
       textColor: Colors.black,
-      iconColor: Colors.cyan,
+      iconColor: Color.fromRGBO( 	112,229,177,1),
       trailing: _customTileExpanded?const Icon(Icons.keyboard_arrow_down_outlined,size: 40,):const Icon(Icons.keyboard_arrow_up_outlined,size: 40,),
       tilePadding: const EdgeInsets.all(10.0),
       childrenPadding: const EdgeInsets.all(5.0),
@@ -78,8 +78,8 @@ class _studentScholarshipState extends State<studentScholarship> {
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       elevation: 10,
-                        shadowColor: Colors.cyan,
-                        primary: Colors.cyan,fixedSize: const Size(150,50)),
+                        shadowColor: Color.fromRGBO( 	112,229,177,1),
+                        primary: Color.fromRGBO( 	112,229,177,1),fixedSize: const Size(150,50)),
                     onPressed: ()=>openFile(url: '${scholar.fileUrl}', name: '${scholar.fileName}'), child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: const [
